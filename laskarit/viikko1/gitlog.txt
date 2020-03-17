@@ -1,0 +1,113 @@
+commit 8606496740ec9ca7790a14021ff34f1e260d66c7
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 17:43:20 2020 +0200
+
+    poitettu file 1 ja nimetty uudelleen file2 -> file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 83fab32eb8d50ffc36865f20f3eeaec0200c252a
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 17:36:06 2020 +0200
+
+    lisätty tiedostot hakemisto ja sen sisälle tiedostot file1, file2, file3
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 84d8130065ab1e9d5a2788a7425ca193db7d183f
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 17:15:43 2020 +0200
+
+    muutettu tiedostoja eka.txt ja kolmas.txt
+
+ eka.txt    | 3 +++
+ kolmas.txt | 2 ++
+ 2 files changed, 5 insertions(+)
+
+commit 89052ed1fe6c6be3dc1cb4ec15495db5e5015625
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 17:13:20 2020 +0200
+
+    uudelleen nimetty tiedosto.txt -> eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 9c2085b23c85452bdfbb634042c64cba66998425
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 17:11:27 2020 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 97930d7a3219addf61f45cd98138d37bb06b54a4
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:59:02 2020 +0200
+
+    tiedosto.txt muutettiin uudelleen
+
+ tiedosto.txt | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+commit 3c279aed4a9889c62b12718691f6494e0f9855c1
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:57:29 2020 +0200
+
+    tiedosto.txt muutettu
+
+ tiedosto.txt | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+commit dd347c6e79dd4e3c2176ee9e36fd26918b016a07
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:42:35 2020 +0200
+
+    hakemisto stuff lisätty
+
+ stuff/joulupukki.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 7089af884d5c9058f8360992e2b0254dd913525c
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:41:12 2020 +0200
+
+    muutettu toinen.txt ja kolmas.txt
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 42227721fd3c674fd7f7b9505f09959227d90acf
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:40:00 2020 +0200
+
+    kolmas.txt lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 94b4e2dd427eaaa9690e9cd022ddb46487df22ae
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:38:09 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 2a2d04c18887b9ca0c0550aaf6a419c4d686754a
+Author: Pinja Vierimaa <pinja.vierimaa@helsinki.fi>
+Date:   Tue Mar 17 16:36:07 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
