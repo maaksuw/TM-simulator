@@ -6,4 +6,4 @@ Link to komentorivi.txt: [komentorivi.txt](https://github.com/pinjaw/ot-harjoitu
 
 Link to gitlog.txt: [gitlog.txt](https://github.com/pinjaw/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt).
 
-I am looking forward to starting my harjoitustyö.
+I am looking forward to starting my harjoitustyö. I hope I have remembered to do everything.
