@@ -31,8 +31,9 @@ public class MaksukorttiTest {
     
     @Test
     public void saldoVaheneeOikein(){
-        kortti.otaRahaa(3);
-        assertEquals(7,kortti.saldo());
+        kortti.lataaRahaa(120);
+        kortti.otaRahaa(40);
+        assertEquals(90,kortti.saldo());
     }
     
     @Test
@@ -49,5 +50,11 @@ public class MaksukorttiTest {
     @Test
     public void otaRahaaPalauttaaFalseJosEpaonnistuu(){
         assertEquals(false, kortti.otaRahaa(30));
+    }
+    
+    @Test
+    public void kortinTiedotTulostuuOikein(){
+        kortti.lataaRahaa(110);
+        assertEquals("saldo: 1.20",kortti.toString());
     }
 }
