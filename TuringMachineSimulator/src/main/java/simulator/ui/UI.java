@@ -17,6 +17,10 @@ import simulator.domain.TuringMachine;
 
 public class UI extends Application{
     
+    public static void main(String[] args){
+        launch(args);
+    }
+    
     @Override
     public void start(Stage stage){
         stage.setTitle("Turing Machine Simulator");
@@ -96,4 +100,5 @@ public class UI extends Application{
         stage.setScene(main);
         stage.show();
     }
+    
 }

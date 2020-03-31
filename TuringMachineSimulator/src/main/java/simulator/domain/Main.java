@@ -22,8 +22,6 @@ public class Main {
             - when creating a tm check if the name is unique
             - interface for turingmachine?
         */
-        
-        UI ui = new UI();
-        Application.launch(UI.class); //graphical ui
+        UI.main(args);
     }
 }
