@@ -3,5 +3,7 @@ The purpose of the software is to simulate a turing machine. The program constru
 
 ## Documentation
 Instructions
+
 [**Requirements specification**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/requirementsspecification.md)
+
 [**Record of working hours**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/recordofworkinghours.md)
