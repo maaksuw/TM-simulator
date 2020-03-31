@@ -1,6 +1,7 @@
 
 package simulator.domain;
 
+import java.util.ArrayList;
 import javafx.application.Application;
 import simulator.ui.UI;
 
@@ -19,10 +20,10 @@ public class Main {
             Todos domain:
             - created tm is saved in a file instead of printing it
             - when creating a tm check if the name is unique
-            - interface for machinecreator?
+            - interface for turingmachine?
         */
+        
         UI ui = new UI();
         Application.launch(UI.class); //graphical ui
-        
     }
 }

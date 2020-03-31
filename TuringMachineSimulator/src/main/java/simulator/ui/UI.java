@@ -2,10 +2,8 @@
 package simulator.ui;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,10 +11,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import simulator.domain.MachineCreator;
 import simulator.domain.TuringMachine;
 
 public class UI extends Application{
@@ -24,8 +20,8 @@ public class UI extends Application{
     @Override
     public void start(Stage stage){
         stage.setTitle("Turing Machine Simulator");
-        MachineCreator maker = new MachineCreator();
         
+        //creates elements and sets the main scene
         Button neww = new Button("New");
         VBox menu = new VBox();
         menu.getChildren().addAll(neww);
@@ -36,6 +32,7 @@ public class UI extends Application{
         
         Scene main = new Scene(layout, 700, 700);
         
+        //creates elements and sets the creation scene
         Label name = new Label("Name: ");
         TextField tfname = new TextField();
         tfname.setMaxWidth(200);
@@ -55,83 +52,48 @@ public class UI extends Application{
         GridPane table = new GridPane();
         table.setVgap(20);
         table.setHgap(20);
+        ArrayList<TextField> nodes = new ArrayList<>();
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < 4; j++){
                 TextField tf1 = new TextField();
                 tf1.setPrefWidth(50);
                 table.add(tf1, i, j);
+                nodes.add(tf1);
             }
         }
         VBox v = new VBox();
         v.setPadding(new Insets(10,10,10,10));
         v.setSpacing(20);
         v.getChildren().addAll(gp,inst,table,finish);
+        
         Scene creation = new Scene(v, 600, 500);
         
+        //"New"-button: moves to the creation scene
         neww.setOnAction((event) -> {
             stage.setScene(creation);
         });
         
+        //"Finish"-button: when finished, creates a turing machine defined by the instructions
         finish.setOnAction((event) -> {
             String nm = name.getText();
             String dsc = desc.getText();
-            TuringMachine tm = maker.create(nm, dsc);
+            TuringMachine tm = new TuringMachine(nm, dsc);
+            ArrayList<String> ttable = new ArrayList<>();
+            for(int i = 0; i < 8; i++){
+                ttable.add(nodes.get(i).getText());
+            }
+            tm.setTable(ttable);
+            //clears the textfields before returning to main scene
+            tfname.clear();
+            tadesc.clear();
+            for(int i = 0; i < 8; i++){
+                nodes.get(i).clear();
+            }
             stage.setScene(main);
         });
         
+        //by default shows the main scene
         stage.setScene(main);
         stage.show();
     }
-    
-    public void startCmd(Scanner reader){
-        
-        MachineCreator maker = new MachineCreator();
-        
-        System.out.println("Commands: "
-                + "\nc) Create a new turing machine"
-                + "\nx) Exit the program");
-                
-        
-        while(true){
-            System.out.print("Command: ");
-            String cmd = reader.nextLine();
-            
-            if(cmd.equals("x")){
-                break;
-            }
-            else if(cmd.equals("c")){
-                
-                System.out.println("");
-                System.out.println("New turing machine");
-                System.out.println("");
-                System.out.println("Currently the only acceptable characters are 0 and 1. States will be numbered 0...n. Maximum amount of states is 10."
-                        + "\nGive the instructions for the states in order from 0 to n, always first for character 0 and then 1."
-                        + "\nGive the instructions in format 'state,character,movement'."
-                        + "\nWhen done, press x.");
-                
-                System.out.print("Name: ");
-                String name = reader.nextLine();
-                System.out.println("Description:");
-                String desc = reader.nextLine();
-                
-                System.out.println("Input a transition table:");
-                ArrayList<String> list = new ArrayList<>();
-                while(true){
-                    String in = reader.nextLine();
-                    if(in.equals("x")) break;
-                    if(in.matches("[0-9]{1}[0-1]{1}(L|R)")){
-                        list.add(in);
-                    }
-                }
-                System.out.println("");
-                maker.create(name, desc);
-                System.out.println("Turing machine created succesfully.");
-                
-            } else {
-                System.out.println("Unknown command.");
-            }
-            
-        }
-    }
-
 }

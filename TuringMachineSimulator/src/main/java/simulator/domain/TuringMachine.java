@@ -7,27 +7,39 @@ public class TuringMachine {
     
     private String name;
     private String desc;
-    private ArrayList<String> ttable;
+    private ArrayList<String> table;
     
     public TuringMachine(String name, String description){
         this.name = name;
         desc = description;
     }
     
+    public String getName() {
+        return name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public ArrayList<String> getTable() {
+        return table;
+    }
+    
     public void setTable(ArrayList<String> t){
-        t = this.ttable;
+        table = t;
     }
     
-    public void printTable(){
-        int n = ttable.size()/2;
-        int m = 2;
-        int idx = 0;
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
-                System.out.print(ttable.get(idx) + "");
+    public String toStringTable(){
+        String s = "";
+        int m = 2; //the size of the alphabet
+        for(int i = 0; i < table.size(); i++){
+            if(i%m == 0 && i != 0 && i != table.size() - 1) s += "\n";
+            if(i%m == (m-1)) s += table.get(i);
+            else {
+                s += table.get(i) + " ";
             }
-            System.out.println("");
         }
+        return s;
     }
-    
 }
