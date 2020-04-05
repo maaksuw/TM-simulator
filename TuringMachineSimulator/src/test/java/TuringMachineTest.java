@@ -14,7 +14,13 @@ public class TuringMachineTest {
     
     @Before
     public void setUp() {
-        tm = new TuringMachine("name", "description");
+        ArrayList<String> inst = new ArrayList<>();
+        inst.add("33L");
+        inst.add("21L");
+        inst.add("10R");
+        inst.add("00R");
+        tm = new TuringMachine();
+        tm.create("name", "description", inst);
     }
     
     @After
@@ -38,18 +44,11 @@ public class TuringMachineTest {
         inst.add("21L");
         inst.add("10R");
         inst.add("00R");
-        tm.setTable(inst);
         assertEquals(tm.getTable(),inst);
     }
     
     @Test
     public void tmtoStringCorrect(){
-        ArrayList<String> inst = new ArrayList<>();
-        inst.add("33L");
-        inst.add("21L");
-        inst.add("10R");
-        inst.add("00R");
-        tm.setTable(inst);
-        assertEquals(tm.toStringTable(),"33L 21L\n10R 00R");
+        assertEquals(tm.toStringTable(),"33L\n21L\n10R\n00R");
     }
 }

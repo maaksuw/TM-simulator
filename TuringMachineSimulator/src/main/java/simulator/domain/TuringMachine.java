@@ -9,9 +9,10 @@ public class TuringMachine {
     private String desc;
     private ArrayList<String> table;
     
-    public TuringMachine(String name, String description){
+    public void create(String name, String desc, ArrayList<String> t){
         this.name = name;
-        desc = description;
+        this.desc = desc;
+        this.table = t;
     }
     
     public String getName() {
@@ -26,18 +27,13 @@ public class TuringMachine {
         return table;
     }
     
-    public void setTable(ArrayList<String> t){
-        table = t;
-    }
-    
     public String toStringTable(){
         String s = "";
-        int m = 2; //the size of the alphabet
         for(int i = 0; i < table.size(); i++){
-            if(i%m == 0 && i != 0 && i != table.size() - 1) s += "\n";
-            if(i%m == (m-1)) s += table.get(i);
-            else {
-                s += table.get(i) + " ";
+            if(i == table.size() - 1){
+                s += table.get(i);
+            } else {
+                s += table.get(i) + "\n";
             }
         }
         return s;

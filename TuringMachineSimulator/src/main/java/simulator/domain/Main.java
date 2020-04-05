@@ -1,8 +1,6 @@
 
 package simulator.domain;
 
-import java.util.ArrayList;
-import javafx.application.Application;
 import simulator.ui.UI;
 
 public class Main {
@@ -11,16 +9,16 @@ public class Main {
         
             Todos UI:
             - make it so that "new"-button opens a new window instead of changing the view
-            - make it so that the user can add more rows to table in creation2 
+            - make it so that the user can add more rows to table in creation 
+            - make it so that you can't finish without giving the proper information in creation scene
+            - make it so that user gets to decide a name for the project folder
             - fix description label alignment
-            - add a file chooser to creation1
-            - connect graphical ui and machine creator
             - ...
         
             Todos domain:
-            - created tm is saved in a file instead of printing it
-            - when creating a tm check if the name is unique
-            - interface for turingmachine?
+            - create simulator class and start building it
+            - interfaces, anyone?
+            - ...
         */
         UI.main(args);
     }
