@@ -4,7 +4,7 @@ package simulator.domain;
 import simulator.ui.UI;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         /* This weeks goals:
             - figure how to make junit tests for handler, filedao and tmdao
             - make all three classes more logical

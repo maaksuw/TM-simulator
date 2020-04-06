@@ -13,7 +13,7 @@ public class TMDao {
     private File projectFolder;
     
     //sets and creates the project folder
-    public boolean setProjectFolder(String path){
+    public boolean setProjectFolder(String path) {
         projectFolder = new File(path);
         return projectFolder.mkdir();
     }
@@ -23,12 +23,11 @@ public class TMDao {
     }
     
     //adds a file to the project folder specified in projectFile
-    public boolean createProjectFile(TuringMachine tm){
+    public boolean createProjectFile(TuringMachine tm) {
         String name = tm.getName();
         File f = new File(projectFolder.getAbsolutePath() + File.separator + name + ".txt");
         try {
-            boolean b = f.createNewFile();
-            if(b){
+            if (f.createNewFile()) {
                 FileWriter writer = new FileWriter(f);
                 writer.write(name + "\n");
                 writer.write(tm.getDesc() + "\n");

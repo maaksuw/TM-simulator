@@ -12,10 +12,10 @@ public class FileDao {
     private File source;
     
     //creates a program folder in home directory
-    public boolean createProgramFolder(){
+    public boolean createProgramFolder() {
         String path = System.getProperty("user.home") + File.separator + "TuringMachineSimulator";
         File f = new File(path);
-        if(!f.mkdir()){
+        if (!f.mkdir()) {
             return false;
         } else {
             return createSourceFile(f);
@@ -23,7 +23,7 @@ public class FileDao {
     }
     
     //creates source file where the information about the users project folders is saved
-    private boolean createSourceFile(File dir){
+    private boolean createSourceFile(File dir) {
         String path = dir.getAbsolutePath() + File.separator + "source.txt";
         source = new File(path);
         try {
@@ -38,12 +38,12 @@ public class FileDao {
         return source;
     }
     
-    public void setSource(String path){
+    public void setSource(String path) {
         source = new File(path);
     }
     
     //writes the absolute path of default folder to source file
-    public boolean setDefaultFolderLocation(String path){
+    public boolean setDefaultFolderLocation(String path) {
         try {
             PrintWriter writer = new PrintWriter(source);
             writer.print(path);
@@ -56,17 +56,17 @@ public class FileDao {
     }
     
     //reads and returns the current default folder
-    public String getDefaultFolderLocation(){
-        try(Scanner reader = new Scanner(source)){
-            if(reader.hasNextLine()){
+    public String getDefaultFolderLocation() {
+        try (Scanner reader = new Scanner(source)) {
+            if (reader.hasNextLine()) {
                 return reader.nextLine();
             } else {
                 return null;
             }
             
-        } catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
-    }    
+    }
     
 }
