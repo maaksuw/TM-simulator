@@ -7,6 +7,11 @@ The purpose of the software is to simulate a turing machine. The program constru
 
 [**Record of working hours**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/recordofworkinghours.md)
 ## Command Line commands
+Runs the program from the command line, if you have cloned the project.
+```
+mvn compile exec:java -Dexec.mainClass=simulator.domain.Main
+```
+
 ### Testing
 Runs the tests for the program.
 ```
