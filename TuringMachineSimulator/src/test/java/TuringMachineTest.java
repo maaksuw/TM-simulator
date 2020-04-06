@@ -1,10 +1,7 @@
 
 import java.util.ArrayList;
-import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import simulator.domain.TuringMachine;
 
@@ -19,14 +16,9 @@ public class TuringMachineTest {
         inst.add("21L");
         inst.add("10R");
         inst.add("00R");
-        tm = new TuringMachine();
-        tm.create("name", "description", inst);
+        tm = new TuringMachine("name", "description", inst);
     }
     
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void tmSetsNameCorrectly(){
         assertEquals(tm.getName(),"name");

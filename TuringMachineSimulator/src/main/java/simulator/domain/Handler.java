@@ -1,6 +1,7 @@
 
 package simulator.domain;
 
+import java.io.File;
 import java.util.ArrayList;
 import simulator.dao.FileDao;
 import simulator.dao.TMDao;
@@ -10,14 +11,13 @@ public class Handler {
     private FileDao fao;
     private TMDao tmdao;
     
-    public Handler(){
-        fao = new FileDao();
-        tmdao = new TMDao();
-        initiate();
+    public Handler(FileDao fdao, TMDao tmdao){
+        this.fao = fdao;
+        this.tmdao = tmdao;
     }
     
-    private void initiate(){
-        fao.createProgramFolder();
+    public boolean initiate(){
+        return fao.createProgramFolder();
     }
     
     public void setDefaultFolderLocation(String path){
@@ -30,13 +30,11 @@ public class Handler {
     
     public void createProjectFolder(){
         tmdao.setProjectFolder(fao.getDefaultFolderLocation());
-        tmdao.createProjectFolder();
     }
     
-    public boolean create(String name, String description, ArrayList<String> table){
-        TuringMachine tm = new TuringMachine();
+    public boolean createProject(String name, String description, ArrayList<String> table){
         tmdao.setProjectFolder(fao.getDefaultFolderLocation());
-        tm.create(name, description, table);
+        TuringMachine tm = new TuringMachine(name, description, table);
         return tmdao.createProjectFile(tm);
     }
     

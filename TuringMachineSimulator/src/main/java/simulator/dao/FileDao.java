@@ -6,42 +6,52 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileDao {
     
     private File source;
     
-    //creates a program folder in home directory and initiates it with a source file
-    public void createProgramFolder(){
-        String path = System.getProperty("user.home") + "/TuringMachineSimulator";
+    //creates a program folder in home directory
+    public boolean createProgramFolder(){
+        String path = System.getProperty("user.home") + File.separator + "TuringMachineSimulator";
         File f = new File(path);
-        f.mkdir();
-        createSourceFile(f);
-    }
-    
-    //creates source file where the information about the users project folders is saved
-    private void createSourceFile(File dir){
-        String path = dir.getAbsolutePath() + "/source.txt";
-        this.source = new File(path);
-        try {
-            this.source.createNewFile();
-        } catch (IOException ex) {
-            System.out.println("Unable to create source file.");
-            Logger.getLogger(TMDao.class.getName()).log(Level.SEVERE, null, ex);
+        if(!f.mkdir()){
+            return false;
+        } else {
+            return createSourceFile(f);
         }
     }
     
+    //creates source file where the information about the users project folders is saved
+    private boolean createSourceFile(File dir){
+        String path = dir.getAbsolutePath() + File.separator + "source.txt";
+        source = new File(path);
+        try {
+            return source.createNewFile();
+        } catch (IOException ex) {
+            System.out.println("Unable to create source file." + ex.getMessage());
+            return false;
+        }
+    }
+
+    public File getSource() {
+        return source;
+    }
+    
+    public void setSource(String path){
+        source = new File(path);
+    }
+    
     //writes the absolute path of default folder to source file
-    public void setDefaultFolderLocation(String path){
+    public boolean setDefaultFolderLocation(String path){
         try {
             PrintWriter writer = new PrintWriter(source);
             writer.print(path);
             writer.close();
+            return true;
         } catch (FileNotFoundException ex) {
-            System.out.println("Unable to write to source file.");
-            Logger.getLogger(TMDao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Unable to find source file." + ex.getMessage());
+            return false;
         }
     }
     
@@ -55,7 +65,6 @@ public class FileDao {
             }
             
         } catch(Exception e){
-            System.out.println(e.getMessage());
             return null;
         }
     }    

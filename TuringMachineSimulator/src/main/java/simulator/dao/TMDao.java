@@ -12,20 +12,20 @@ public class TMDao {
     
     private File projectFolder;
     
-    //creates a project folder
-    public void createProjectFolder(){
-        projectFolder.mkdir();
-    }
-    
-    //sets the path of the project folder
-    public void setProjectFolder(String path){
+    //sets and creates the project folder
+    public boolean setProjectFolder(String path){
         projectFolder = new File(path);
+        return projectFolder.mkdir();
     }
     
-    //add a file to the project folder specified in projectFile
+    public File getProjectFolder() {
+        return projectFolder;
+    }
+    
+    //adds a file to the project folder specified in projectFile
     public boolean createProjectFile(TuringMachine tm){
         String name = tm.getName();
-        File f = new File(projectFolder.getAbsolutePath() + "/" + name + ".txt");
+        File f = new File(projectFolder.getAbsolutePath() + File.separator + name + ".txt");
         try {
             boolean b = f.createNewFile();
             if(b){

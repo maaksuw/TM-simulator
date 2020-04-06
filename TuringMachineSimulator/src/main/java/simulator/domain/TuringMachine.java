@@ -9,7 +9,7 @@ public class TuringMachine {
     private String desc;
     private ArrayList<String> table;
     
-    public void create(String name, String desc, ArrayList<String> t){
+    public TuringMachine(String name, String desc, ArrayList<String> t){
         this.name = name;
         this.desc = desc;
         this.table = t;

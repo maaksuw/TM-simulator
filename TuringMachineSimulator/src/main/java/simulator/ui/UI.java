@@ -16,18 +16,29 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import simulator.dao.FileDao;
+import simulator.dao.TMDao;
 import simulator.domain.Handler;
 
 public class UI extends Application{
     
+    private Handler handle;
+    
     public static void main(String[] args){
         launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        FileDao fao = new FileDao();
+        TMDao tmdao = new TMDao();
+        handle = new Handler(fao, tmdao);
+        handle.initiate();
     }
     
     @Override
     public void start(Stage stage){
         stage.setTitle("Turing Machine Simulator");
-        Handler handle = new Handler();
         
         //creates elements and sets the main scene
         Button neww = new Button("New");
@@ -111,7 +122,7 @@ public class UI extends Application{
             dc.setInitialDirectory(new File(System.getProperty("user.home")));
             File selectedDirectory = dc.showDialog(stage);
             if(selectedDirectory != null){
-                String path = selectedDirectory.getAbsolutePath() + "/TuringMachineProjects";
+                String path = selectedDirectory.getAbsolutePath() + File.separator + "TuringMachineProjects";
                 location.setText(path);
             }
         });
@@ -144,7 +155,7 @@ public class UI extends Application{
             }
             handle.setDefaultFolderLocation(location.getText());
             handle.createProjectFolder();
-            if(!handle.create(nm,dsc,ttable)){
+            if(!handle.createProject(nm,dsc,ttable)){
                 hox.setText("Project with the same name already exists.");
                 return;
             }
