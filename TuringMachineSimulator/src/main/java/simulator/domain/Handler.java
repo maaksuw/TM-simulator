@@ -17,7 +17,10 @@ public class Handler {
     }
     
     public boolean initiate(){
-        return fao.createProgramFolder();
+        if(!fao.createProgramFolder()){
+            fao.setSource(System.getProperty("user.home") + File.separator + "TuringMachineSimulator" + File.separator + "source.txt");
+        }
+        return true;
     }
     
     public void setDefaultFolderLocation(String path){
