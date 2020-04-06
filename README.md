@@ -3,6 +3,8 @@ The purpose of the software is to simulate a turing machine. The program constru
 ## Documentation
 [**Instructions**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/instructions.md)
 
+[**Architecture**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/architecture.md)
+
 [**Requirements specification**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/requirementsspecification.md)
 
 [**Record of working hours**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/recordofworkinghours.md)
@@ -31,4 +33,7 @@ Running the command creates a jar file TuringMachineSimulator-1.0-SNAPSHOT.jar t
 ### JavaDoc
 To be added.
 ### CheckStyle
-To be added.
+Generates a CheckStyle report checkstyle.html in the target/site folder.
+```
+mvn jxr:jxr checkstyle:checkstyle
+``` 
