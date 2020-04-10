@@ -21,7 +21,7 @@ mvn test
 ```
 Creates a code coverage report.
 ```
-mvn jacoco:report
+mvn test jacoco:report
 ```
 Running the command creates a report file target/site/jacoco/index.html that can be viewed in a browser.
 ### Generating a jar
