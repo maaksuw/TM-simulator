@@ -1,7 +1,6 @@
 
 package simulator.ui;
 
-import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -14,30 +13,30 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import simulator.dao.FileDao;
+import simulator.dao.FileManagerDao;
+import simulator.dao.FileTMDao;
+import simulator.dao.ManagerDao;
 import simulator.dao.TMDao;
 import simulator.domain.Handler;
 
-public class UI extends Application{
+public class UI extends Application {
     
     private Handler handle;
     
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void init() throws Exception {
-        FileDao fao = new FileDao();
-        TMDao tmdao = new TMDao();
-        handle = new Handler(fao, tmdao);
-        handle.initiate();
+    public void init() {
+        ManagerDao mao = new FileManagerDao();
+        TMDao tmdao = new FileTMDao(mao.getProjectFolder());
+        handle = new Handler(mao, tmdao);
     }
     
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) {
         stage.setTitle("Turing Machine Simulator");
         
         //creates elements and sets the main scene
@@ -56,21 +55,9 @@ public class UI extends Application{
         TextField tfname = new TextField();
         tfname.setMaxWidth(200);
         Label hox = new Label("");
-        HBox h2 = new HBox();
-        h2.setSpacing(10);
-        h2.getChildren().addAll(tfname,hox);
-        Label projectlb = new Label("Project folder: ");
-        Button chooseloc = new Button("Choose location");
-        Label location = new Label("");
-        HBox h1 = new HBox();
-        h1.setSpacing(10);
-        String loc = handle.getDefaultFolderLocation();
-        if(loc == null){
-            loc = "Choose a directory where the project folder will be created."
-                    + "\nBy default all projects will be placed in the project folder.";
-        }
-        location.setText(loc);
-        h1.getChildren().addAll(chooseloc,location);
+        HBox h = new HBox();
+        h.setSpacing(10);
+        h.getChildren().addAll(tfname, hox);
         Label desc = new Label("Description: ");
         TextArea tadesc = new TextArea();
         tadesc.setPrefWidth(400);
@@ -80,11 +67,9 @@ public class UI extends Application{
         gp.setHgap(10);
         gp.setVgap(10);
         gp.add(name, 0, 0);
-        gp.add(h2, 1, 0);
-        gp.add(projectlb, 0, 1);
-        gp.add(h1, 1, 1);
-        gp.add(desc, 0, 2);
-        gp.add(tadesc, 1, 2);
+        gp.add(h, 1, 0);
+        gp.add(desc, 0, 1);
+        gp.add(tadesc, 1, 1);
         Button finish = new Button("Finish");
         Label inst = new Label("Currently the alphabet consists only of 0 and 1 and there must be 4 stages for every machine."
                 + "\nGive the instructions in the following order: state, character, movement.");
@@ -114,28 +99,11 @@ public class UI extends Application{
         //"New"-button: moves to the creation scene
         neww.setOnAction((event) -> {
             stage.setScene(creation);
-        });
-        
-        //"Choose location" -button: Chooses the project folder location if no default folder is set
-        chooseloc.setOnAction((event) -> {
-            DirectoryChooser dc = new DirectoryChooser();
-            dc.setInitialDirectory(new File(System.getProperty("user.home")));
-            File selectedDirectory = dc.showDialog(stage);
-            if(selectedDirectory != null){
-                String path = selectedDirectory.getAbsolutePath() + File.separator + "TuringMachineProjects";
-                location.setText(path);
-            }
-        });
+        }); 
         
         //"Cancel" -button: exits the creation scene an returns to main scene with no changes made
         cancel.setOnAction((event) -> {
             //clears the textfields before returning to main scene
-            String loca = handle.getDefaultFolderLocation();
-            if(loca == null){
-                loca = "Choose a directory where the project folder will be created."
-                        + "\nBy default all projects will be placed in the project folder.";
-            }
-            location.setText(loca);
             tfname.clear();
             tadesc.clear();
             hox.setText("");
@@ -153,9 +121,7 @@ public class UI extends Application{
             for(int i = 0; i < 8; i++){
                 ttable.add(nodes.get(i).getText());
             }
-            handle.setDefaultFolderLocation(location.getText());
-            handle.createProjectFolder();
-            if(!handle.createProject(nm,dsc,ttable)){
+            if(!handle.createTM(nm,dsc,ttable)){
                 hox.setText("Project with the same name already exists.");
                 return;
             }

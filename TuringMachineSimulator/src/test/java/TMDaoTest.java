@@ -11,18 +11,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
-import simulator.dao.FileDao;
-import simulator.dao.TMDao;
+import simulator.dao.FileManagerDao;
+import simulator.dao.FileTMDao;
 import simulator.domain.Handler;
 
 public class TMDaoTest {
     
-    private TMDao tmdao;
+    private FileTMDao tmdao;
     private File tempFile;
     
     @Before
     public void setUp() throws IOException{
-        tmdao = new TMDao();
+        tmdao = new FileTMDao();
         tempFile = File.createTempFile("temp", null);
     }
     
