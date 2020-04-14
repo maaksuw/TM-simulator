@@ -10,4 +10,5 @@ Date | Hours | Comments
 6.4.2020| 7 h |Updated documentation, studied Junit-testing and started writing tests for the DAO-classes. Added Checkstyle and created a class diagram.
 10.4.2020| 5 h |Simplified the dao-classes and removed the option for choosing a saving location. Bettered the structure and created interfaces for dao-classes.
 12.4.2020| 2 h |Built first version of the simulator class.
-Total| 39 h
+14.4.2020| 4 h |Expanded the simulator class.
+Total| 43 h
