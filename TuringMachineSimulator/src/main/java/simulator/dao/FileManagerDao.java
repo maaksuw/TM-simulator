@@ -12,7 +12,9 @@ public class FileManagerDao implements ManagerDao {
     
     public FileManagerDao() {
         sourcef = createProgramFolder();
+        System.out.println(sourcef);
         projectf = createProjectFolder();
+        System.out.println(projectf);
     }
     
     //creates a program folder in home directory
@@ -38,7 +40,6 @@ public class FileManagerDao implements ManagerDao {
     
     @Override
     public String getProjectFolder(){
-        System.out.println(projectf);
         return projectf;
     }
     

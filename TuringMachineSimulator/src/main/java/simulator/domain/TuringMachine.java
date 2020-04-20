@@ -1,40 +1,81 @@
 
 package simulator.domain;
 
-import java.util.ArrayList;
-
 public class TuringMachine {
     
     private String name;
-    private String desc;
-    private ArrayList<String> table;
+    private String d;
+    private Instruction[][] table;
+    private char[] alphab;
+    private String[] states;
     
-    public TuringMachine(String name, String desc, ArrayList<String> t) {
+    public TuringMachine(String name, String desc, Instruction[][] t, char[] a, String[] s) {
         this.name = name;
-        this.desc = desc;
+        this.d = desc;
         this.table = t;
+        this.alphab = a;
+        this.states = s;
     }
     
     public String getName() {
         return name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return d;
     }
 
-    public ArrayList<String> getTable() {
+    public Instruction[][] getTable() {
         return table;
+    }
+
+    public char[] getAlphabet() {
+        return alphab;
+    }
+
+    public String[] getStates() {
+        return states;
+    }    
+    
+    public int searchCharacterIndex(char a){ //If there is need for more efficient searching later the alphabet should be stored in a hashmap
+        for(int i = 0; i < alphab.length; i++){
+            if(alphab[i] == a) return i;
+        }
+        return -1;
+    }
+    
+    public char searchCharacter(int i){
+        return alphab[i];
+    }
+    
+    public int searchStateIndex(String s){ //If there is need for more efficient searching later the states should be stored in a hashmap
+        for(int i = 0; i < states.length; i++){
+            if(states[i].equals(s)) return i;
+        }
+        return -1;
+    }
+    
+    public String searchState(int i){
+        return states[i];
+    }
+    
+    public String toStringAlphabet() {
+        String s = "";
+        for(int i = 0; i < alphab.length; i++){
+            s += alphab[i];
+            if(i != alphab.length - 1) s += " ";
+        }
+        return s;
     }
     
     public String toStringTable() {
         String s = "";
-        for (int i = 0; i < table.size(); i++) {
-            if (i == table.size() - 1) {
-                s += table.get(i);
-            } else {
-                s += table.get(i) + "\n";
+        for (int i = 0; i < table.length; i++) {
+            for(int j = 0; j < table[i].length; j++){
+                s += table[i][j].toString();
+                if(j != table[i].length - 1) s += " ";
             }
+            if(i != table.length - 1) s += "\n";
         }
         return s;
     }

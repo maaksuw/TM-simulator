@@ -24,10 +24,9 @@ public class FileTMDao implements TMDao {
         try {
             if(f.createNewFile()){
                 FileWriter writer = new FileWriter(f);
-                writer.write(tm.getName() + "\n");
-                writer.write("-\n");
-                writer.write(tm.getDesc() + "\n");
-                writer.write("-\n");
+                writer.write(tm.getName() + ":\n");
+                writer.write(tm.getDescription() + ":\n");
+                writer.write(tm.toStringAlphabet() + ":\n");
                 writer.write(tm.toStringTable());
                 writer.close();
                 return true;
