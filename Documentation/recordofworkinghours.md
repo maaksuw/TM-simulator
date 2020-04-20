@@ -11,5 +11,5 @@ Date | Hours | Comments
 10.4.2020| 5 h |Simplified the dao-classes and removed the option for choosing a saving location. Bettered the structure and created interfaces for dao-classes.
 12.4.2020| 2 h |Built first version of the simulator class.
 14.4.2020| 4 h |Expanded the simulator class.
-21.4.2020| 8 h |Finished the first version of the creation gui with transition table included.
+21.4.2020| 8 h |Updated the creation scene with transition table creation.
 Total| 51 h
