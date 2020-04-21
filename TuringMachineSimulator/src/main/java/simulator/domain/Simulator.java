@@ -29,19 +29,28 @@ public class Simulator {
         char[] tape = initTape(input);
         Instruction[][] table = tm.getTable();
         while (true) {
-            if (head == 0 || head == tape.length - 1) tape = growTape(tape);
+            if (head == 0 || head == tape.length - 1) {
+                tape = growTape(tape);
+            }
             //printTape(tape);
             Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
-            
-            if (i == null || i.getState().equals("")) return 0;
-            
-            if (i.getState().equals("qa")) return 1;
-            if (i.getState().equals("qr")) return 0;
-            
+            if (i == null || i.getState().equals("")) {
+                return 0;
+            }
+            if (i.getState().equals("qa")) {
+                return 1;
+            }
+            if (i.getState().equals("qr")) {
+                return 0;
+            }
             tape[head] = i.getCharacter();
             char a = i.getMovement();
-            if (a == 'L') head--;
-            if (a == 'R') head++;
+            if (a == 'L') {
+                head--;
+            }
+            if (a == 'R') {
+                head++;
+            }
             state = tm.searchStateIndex(i.getState());
         }
     }
@@ -53,13 +62,17 @@ public class Simulator {
         }
         int n = input.length();
         int a = n * 2;
-        if (n % 2 != 0) a = (n * 2) + 1;
+        if (n % 2 != 0) {
+            a = (n * 2) + 1;
+        }
         char[] tape = new char[a];
         for (int i = 0; i < tape.length; i++) {
             tape[i] = '-';
         }
         int idx = n / 2;
-        if (n % 2 != 0) idx = (n + 1) / 2;
+        if (n % 2 != 0) {
+            idx = (n + 1) / 2;
+        }
         head = idx;
         for (int i = 0; i < n; i++) {
             tape[idx] = input.charAt(i);
@@ -71,13 +84,17 @@ public class Simulator {
     private char[] growTape(char[] tape) {
         int n = tape.length;
         int a = n * 2;
-        if (n % 2 != 0) a = (n * 2) + 1;
+        if (n % 2 != 0) {
+            a = (n * 2) + 1;
+        }
         char[] t = new char[a];
         for (int j = 0; j < a; j++) {
             t[j] = '-';
         }
         int idx = n / 2;
-        if (n % 2 != 0) idx = (n + 1) / 2;
+        if (n % 2 != 0) {
+            idx = (n + 1) / 2;
+        }
         head += idx;
         for (int i = 0; i < n; i++) {
             t[idx] = tape[i];

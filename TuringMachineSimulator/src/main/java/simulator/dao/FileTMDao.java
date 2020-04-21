@@ -19,6 +19,7 @@ public class FileTMDao implements TMDao {
     @Override
     public boolean create(TuringMachine tm) {
         File f = new File(folder + File.separator + tm.getName() + ".txt");
+        System.out.println("New project file: " + f.getAbsolutePath());
         try {
             if (f.createNewFile()) {
                 FileWriter writer = new FileWriter(f);

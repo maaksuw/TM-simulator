@@ -33,10 +33,16 @@ public class Instruction {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || this.getClass() != o.getClass()) {
+            return false;
+        }
         Instruction i = (Instruction) o;
-        if (i.getState().equals(this.getState()) && i.getCharacter() == this.getCharacter() && i.getMovement() == this.getMovement()) return true;
+        if (i.getState().equals(this.getState()) && i.getCharacter() == this.getCharacter() && i.getMovement() == this.getMovement()) {
+            return true;
+        }
         return false;
     }
 

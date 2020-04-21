@@ -39,25 +39,33 @@ public class TuringMachine {
     
     public int searchCharacterIndex(char a) { //If there is need for more efficient searching later the alphabet should be stored in a hashmap
         for (int i = 0; i < alphab.length; i++) {
-            if (alphab[i] == a) return i;
+            if (alphab[i] == a) {
+                return i;
+            }
         }
         return -1;
     }
     
     public char searchCharacter(int i) {
-        if (i >= alphab.length) throw new IllegalArgumentException();
+        if (i >= alphab.length) {
+            throw new IllegalArgumentException();
+        }
         return alphab[i];
     }
     
     public int searchStateIndex(String s) { //If there is need for more efficient searching later the states should be stored in a hashmap
         for (int i = 0; i < states.length; i++) {
-            if (states[i].equals(s)) return i;
+            if (states[i].equals(s)) {
+                return i;
+            }
         }
         return -1;
     }
     
     public String searchState(int i) {
-        if (i >= states.length) throw new IllegalArgumentException();
+        if (i >= states.length) {
+            throw new IllegalArgumentException();
+        }
         return states[i];
     }
     
@@ -65,7 +73,9 @@ public class TuringMachine {
         String s = "";
         for (int i = 0; i < alphab.length; i++) {
             s += alphab[i];
-            if (i != alphab.length - 1) s += " ";
+            if (i != alphab.length - 1) {
+                s += " ";
+            }
         }
         return s;
     }
@@ -74,7 +84,9 @@ public class TuringMachine {
         String s = "";
         for (int i = 0; i < states.length; i++) {
             s += states[i];
-            if (i != states.length - 1) s += " ";
+            if (i != states.length - 1) {
+                s += " ";
+            }
         }
         return s;
     }
@@ -84,9 +96,13 @@ public class TuringMachine {
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table[i].length; j++) {
                 s += table[i][j].toString();
-                if (j != table[i].length - 1) s += " ";
+                if (j != table[i].length - 1) {
+                    s += " ";
+                }
             }
-            if (i != table.length - 1) s += "\n";
+            if (i != table.length - 1) {
+                s += "\n";
+            }
         }
         return s;
     }
