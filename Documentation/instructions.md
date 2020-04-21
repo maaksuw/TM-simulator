@@ -1,5 +1,5 @@
 # Instructions
 ## Configuration
-The program creates a folder in the users home directory where it stores an empty source file. The source file is used to navigate to user specified project directories and changing the location or the contents of the folder will currently break the program.
+The program creates a directory TMSimulator/Projects in the users working directory where the project files are stored. Changing he contents of the folder will result the program not working in the desired way. Starting the program from another directory will naturally create a new folder and the program will not be able to read the files in the previous folder.
 ## Launcing the program
 To be added.
