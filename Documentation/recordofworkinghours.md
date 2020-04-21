@@ -12,4 +12,5 @@ Date | Hours | Comments
 12.4.2020| 2 h |Built first version of the simulator class.
 14.4.2020| 4 h |Expanded the simulator class.
 21.4.2020| 8 h |Updated the creation scene with transition table creation.
-Total| 51 h
+22.4.2020| 8 h |Wrote tests for classes TuringMachine and Simulator. Prepared the first release and updated documentation.
+Total| 58 h
