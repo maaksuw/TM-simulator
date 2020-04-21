@@ -11,6 +11,14 @@ public class Simulator {
         this.tm = tm;
         this.state = 0;
     }
+    
+    public int getState(){
+        return this.state;
+    }
+    
+    public TuringMachine getTuringMachine(){
+        return this.tm;
+    }
 
     public void setTm(TuringMachine tm) {
         this.tm = tm;
@@ -21,22 +29,16 @@ public class Simulator {
         char[] tape = initTape(input);
         Instruction[][] table = tm.getTable();
         while(true){
-            printTape(tape);
             if(head == 0 || head == tape.length - 1) tape = growTape(tape);
+            //printTape(tape);
             Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
             if(i == null || i.getState().equals("")){
                 return 0;
             }
             if(i.getState().equals("qa")){
-                for(int j = 0; j < tape.length; j++){
-                    System.out.print(tape[j] + " ");
-                }
                 return 1;
             }
             if(i.getState().equals("qr")){
-                for(int j = 0; j < tape.length; j++){
-                    System.out.print(tape[j] + " ");
-                }
                 return 0;
             }
             tape[head] = i.getCharacter();
@@ -49,6 +51,10 @@ public class Simulator {
     }
     
     private char[] initTape(String input) {
+        if(input.trim().length() == 0){
+            head = 0;
+            return new char[]{'-'};
+        }
         int n = input.length();
         int a = n*2;
         if(n%2 != 0) a = n*2 + 1;
@@ -85,17 +91,17 @@ public class Simulator {
         return tape;
     }
     
-    private void printTape(char[] tape) {
-        for(int j = 0; j < tape.length; j++){
-                if(j == head){
-                    System.out.print("[" + tape[j] + "]");
-                } else if(j == (head -1)) {
-                    System.out.print(tape[j]);
-                } else {
-                    System.out.print(tape[j] + " ");
-                }
-            }
-            System.out.println("");
-    }
+//    private void printTape(char[] tape) {
+//        for(int j = 0; j < tape.length; j++){
+//                if(j == head){
+//                    System.out.print("[" + tape[j] + "]");
+//                } else if(j == (head -1)) {
+//                    System.out.print(tape[j]);
+//                } else {
+//                    System.out.print(tape[j] + " ");
+//                }
+//            }
+//            System.out.println("");
+//    }
     
 }

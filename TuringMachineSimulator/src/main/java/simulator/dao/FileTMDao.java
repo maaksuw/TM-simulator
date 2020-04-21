@@ -4,6 +4,7 @@ package simulator.dao;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import simulator.domain.TuringMachine;
@@ -27,6 +28,7 @@ public class FileTMDao implements TMDao {
                 writer.write(tm.getName() + ":\n");
                 writer.write(tm.getDescription() + ":\n");
                 writer.write(tm.toStringAlphabet() + ":\n");
+                writer.write(tm.toStringStates() + ":\n");
                 writer.write(tm.toStringTable());
                 writer.close();
                 return true;

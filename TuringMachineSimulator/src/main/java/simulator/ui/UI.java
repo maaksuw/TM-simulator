@@ -238,8 +238,10 @@ public class UI extends Application {
             tfname.clear();
             tadesc.clear();
             hox.setText("");
-            for(int i = 0; i < 8; i++){
-                nodes.get(i).clear();
+            for(Node n: table.getChildren()){
+                if((GridPane.getRowIndex(n) == null || GridPane.getColumnIndex(n) == null) || (GridPane.getRowIndex(n) == 0 && GridPane.getColumnIndex(n) == 0)) continue;
+                TextField t = (TextField) n;
+                t.clear();
             }
             stage.setScene(main);
         });

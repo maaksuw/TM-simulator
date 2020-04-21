@@ -45,6 +45,7 @@ public class TuringMachine {
     }
     
     public char searchCharacter(int i){
+        if(i >= alphab.length) throw new IllegalArgumentException();
         return alphab[i];
     }
     
@@ -56,6 +57,7 @@ public class TuringMachine {
     }
     
     public String searchState(int i){
+        if(i >= states.length) throw new IllegalArgumentException();
         return states[i];
     }
     
@@ -64,6 +66,15 @@ public class TuringMachine {
         for(int i = 0; i < alphab.length; i++){
             s += alphab[i];
             if(i != alphab.length - 1) s += " ";
+        }
+        return s;
+    }
+    
+    public String toStringStates() {
+        String s = "";
+        for(int i = 0; i < states.length; i++){
+            s += states[i];
+            if(i != states.length - 1) s += " ";
         }
         return s;
     }
