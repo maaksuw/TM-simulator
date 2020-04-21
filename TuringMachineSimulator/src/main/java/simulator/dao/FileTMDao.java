@@ -4,9 +4,6 @@ package simulator.dao;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import simulator.domain.TuringMachine;
 
 public class FileTMDao implements TMDao {
@@ -23,7 +20,7 @@ public class FileTMDao implements TMDao {
     public boolean create(TuringMachine tm) {
         File f = new File(folder + File.separator + tm.getName() + ".txt");
         try {
-            if(f.createNewFile()){
+            if (f.createNewFile()) {
                 FileWriter writer = new FileWriter(f);
                 writer.write(tm.getName() + ":\n");
                 writer.write(tm.getDescription() + ":\n");

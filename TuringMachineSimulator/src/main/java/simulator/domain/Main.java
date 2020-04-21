@@ -1,7 +1,6 @@
 
 package simulator.domain;
 
-import java.util.ArrayList;
 import simulator.ui.UI;
 
 public class Main {
@@ -26,7 +25,6 @@ public class Main {
             - more choices in creation "ignore all characters but x, ..."
             - ...
         */
-        System.out.println(" ".trim().length());
-        //UI.main(args);
+        UI.main(args);
     }
 }

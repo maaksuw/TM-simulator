@@ -26,14 +26,14 @@ public class Handler {
         }
     }
     
-    private Instruction[][] createInstructionTable(String[][] t){
+    private Instruction[][] createInstructionTable(String[][] t) {
         int n = t.length;
         int m = t[0].length;
         Instruction[][] table = new Instruction[n][m];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < m; j++){
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 String[] inst = t[i][j].split(" ");
-                if(inst.length == 1){
+                if (inst.length == 1) {
                     table[i][j] = new Instruction(inst[0]);
                 } else {
                     char character = inst[0].charAt(0);

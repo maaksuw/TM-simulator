@@ -3,8 +3,6 @@ package simulator.dao;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 public class FileManagerDao implements ManagerDao {
     
     private String sourcef;
@@ -20,7 +18,7 @@ public class FileManagerDao implements ManagerDao {
     //creates a program folder in home directory
     private String createProgramFolder() {
         File f = new File("TMSimulator");
-        if(f.mkdir()){
+        if (f.mkdir()) {
             File file = new File(f.getAbsolutePath() + File.separator + "source.txt");
             try {
                 file.createNewFile();
@@ -39,7 +37,7 @@ public class FileManagerDao implements ManagerDao {
     }
     
     @Override
-    public String getProjectFolder(){
+    public String getProjectFolder() {
         return projectf;
     }
     

@@ -1,8 +1,5 @@
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import simulator.domain.Instruction;
@@ -55,17 +52,17 @@ public class SimulatorTest {
     }
     
     @Test
-    public void constructorSetsTuringMachineCorrectly(){
+    public void constructorSetsTuringMachineCorrectly() {
         assertEquals(sakke.getTuringMachine(),tm);
     }
     
     @Test
-    public void constructorSetsInitialStateCorrectly(){
+    public void constructorSetsInitialStateCorrectly() {
         assertEquals(sakke.getState(),0);
     }
     
     @Test
-    public void setTmSetsTuringMachineCorrectly(){
+    public void setTmSetsTuringMachineCorrectly() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qar","qb"};
         Instruction[][] inst = new Instruction[3][2];
@@ -81,7 +78,7 @@ public class SimulatorTest {
     }
     
     @Test
-    public void setTmInitiatesStateCorrectly(){
+    public void setTmInitiatesStateCorrectly() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qar","qb"};
         Instruction[][] inst = new Instruction[3][2];
@@ -97,25 +94,25 @@ public class SimulatorTest {
     }
     
     @Test
-    public void simulatesCorreclty1(){
+    public void simulatesCorreclty1() {
         String input = "abbaabaabba";
         assertEquals(sakke.simulate(input),1);
     }
     
     @Test
-    public void simulatesCorrectly2(){
+    public void simulatesCorrectly2() {
         String input = "abbaaaabba";
         assertEquals(sakke.simulate(input),1);
     }
     
     @Test
-    public void simulatesCorrectly3(){
+    public void simulatesCorrectly3() {
         String input = "abbaaabaabba";
         assertEquals(sakke.simulate(input),0);
     }
     
     @Test
-    public void simulatesCorrectly4(){
+    public void simulatesCorrectly4() {
         String input;
         String str = "babbabbbababbababbababbbaabbaaaa";
         String str2 = "";
@@ -127,19 +124,19 @@ public class SimulatorTest {
     }
     
     @Test
-    public void simulatesCorrectly5(){
+    public void simulatesCorrectly5() {
         String input = "a";
         assertEquals(sakke.simulate(input),1);
     }
     
     @Test
-    public void simulatesCorrectly6(){
+    public void simulatesCorrectly6() {
         String input = "";
         assertEquals(sakke.simulate(input),1);
     }
     
     @Test
-    public void simulatesCorrectly7(){
+    public void simulatesCorrectly7() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qA"};
         Instruction[][] inst = new Instruction[2][2];
@@ -150,7 +147,7 @@ public class SimulatorTest {
     }
     
     @Test
-    public void simulatesCorrectly8(){
+    public void simulatesCorrectly8() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qA"};
         Instruction[][] inst = new Instruction[2][2];

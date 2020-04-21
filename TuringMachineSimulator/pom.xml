@@ -41,6 +41,7 @@
                 <configuration>
                     <excludes>
                         <exclude>simulator/ui/**/*</exclude>
+                        <exclude>simulator/domain/Main.java</exclude>
                     </excludes>
                 </configuration>
                 <executions>

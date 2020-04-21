@@ -25,17 +25,17 @@ public class TuringMachineTest {
     }
     
     @Test
-    public void tmSetsNameCorrectly(){
+    public void tmSetsNameCorrectly() {
         assertEquals(tm.getName(),"name");
     }
     
     @Test
-    public void tmSetsDescriptionCorrectly(){
+    public void tmSetsDescriptionCorrectly() {
         assertEquals(tm.getDescription(),"description");
     }
     
     @Test
-    public void tmSetsTableCorrectly(){
+    public void tmSetsTableCorrectly() {
         Instruction[][] table = tm.getTable();
         
         Instruction[][] inst = new Instruction[3][2];
@@ -48,53 +48,53 @@ public class TuringMachineTest {
         
         boolean same = true;
         
-        for(int i = 0; i < inst.length; i++){
-            for(int j = 0; j < inst[0].length; j++){
-                if(!table[i][j].equals(inst[i][j])) same = false;
+        for (int i = 0; i < inst.length; i++) {
+            for (int j = 0; j < inst[0].length; j++) {
+                if (!table[i][j].equals(inst[i][j])) same = false;
             }
         }
         assertTrue(same);
     }
     
     @Test
-    public void tmSetsAlphabetCorrectly(){
+    public void tmSetsAlphabetCorrectly() {
         char[] a = tm.getAlphabet();
         char[] b = new char[]{'a','b'};
         boolean same = true;
-        for(int i = 0; i < b.length; i++){
-            if(a[i] != b[i]) same = false;
+        for (int i = 0; i < b.length; i++) {
+            if (a[i] != b[i]) same = false;
         }
         assertTrue(same);
     }
     
     @Test
-    public void tmSetsStatesCorrectly(){
+    public void tmSetsStatesCorrectly() {
         String[] a = tm.getStates();
         String[] b = new String[]{"q0","qar","qb"};
         boolean same = true;
-        for(int i = 0; i < b.length; i++){
-            if(!a[i].equals(b[i])) same = false;
+        for (int i = 0; i < b.length; i++) {
+            if (!a[i].equals(b[i])) same = false;
         }
         assertTrue(same);
     }
     
     @Test
-    public void searchReturnsCharacterIndexCorrectly(){
+    public void searchReturnsCharacterIndexCorrectly() {
         assertEquals(tm.searchCharacterIndex('b'),1);
     }
     
     @Test
-    public void searchReturnsFalseIfCharacterNotInAlphabet(){
+    public void searchReturnsFalseIfCharacterNotInAlphabet() {
         assertEquals(tm.searchCharacterIndex('g'),-1);
     }
     
     @Test
-    public void searchCharacterReturnsCorrectCharacter(){
+    public void searchCharacterReturnsCorrectCharacter() {
         assertEquals(tm.searchCharacter(0),'a');
     }
     
     @Test
-    public void searchCharacterThrowsErrorIfIndexOutOfBounds(){
+    public void searchCharacterThrowsErrorIfIndexOutOfBounds() {
         boolean b = false;
         try {
             tm.searchCharacter(15);
@@ -105,43 +105,43 @@ public class TuringMachineTest {
     }
     
     @Test
-    public void searchReturnsStateIndexCorrectly(){
+    public void searchReturnsStateIndexCorrectly() {
         assertEquals(tm.searchStateIndex("qar"),1);
     }
     
     @Test
-    public void searchReturnsFalseIfStateNotInRegister(){
+    public void searchReturnsFalseIfStateNotInRegister() {
         assertEquals(tm.searchStateIndex("www"),-1);
     }
     
     @Test
-    public void searchStateReturnsStateCorrectly(){
+    public void searchStateReturnsStateCorrectly() {
         assertEquals(tm.searchState(0),"q0");
     }
     
     @Test
-    public void searchStateThrowsErrorIfIndexOutOfBounds(){
+    public void searchStateThrowsErrorIfIndexOutOfBounds() {
         boolean b = false;
         try {
             tm.searchState(100);
-        } catch(Exception e){
+        } catch(Exception e) {
             b = true;
         }
         assertTrue(b);
     }
     
     @Test
-    public void toStringAlphabetCorrect(){
+    public void toStringAlphabetCorrect() {
         assertEquals(tm.toStringAlphabet(),"a b");
     }
     
     @Test
-    public void toStringStates(){
+    public void toStringStates() {
         assertEquals(tm.toStringStates(),"q0 qar qb");
     }
     
     @Test
-    public void toStringTable(){
+    public void toStringTable() {
         assertEquals(tm.toStringTable(),"(a, R, qar) (qa)\n(b, R, qb) (b, L, qar)\n(a, L, qb) (qr)");
     }
 }
