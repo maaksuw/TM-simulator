@@ -48,7 +48,8 @@ public class SimulatorTest {
         t[6][1] = new Instruction('b','L',"qB");
         t[6][2] = new Instruction('-','R',"qA");
         tm = new TuringMachine("Makke","Helps in testing.",t,alphabet,states);
-        sakke = new Simulator(tm);
+        sakke = new Simulator();
+        sakke.setTm(tm);
     }
     
     @Test

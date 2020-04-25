@@ -97,7 +97,7 @@ public class TuringMachine {
             for (int j = 0; j < table[i].length; j++) {
                 s += table[i][j].toString();
                 if (j != table[i].length - 1) {
-                    s += " ";
+                    s += "; ";
                 }
             }
             if (i != table.length - 1) {

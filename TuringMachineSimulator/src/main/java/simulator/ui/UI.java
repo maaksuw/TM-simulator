@@ -1,10 +1,12 @@
 
 package simulator.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import simulator.dao.FileManagerDao;
 import simulator.dao.FileTMDao;
@@ -41,17 +44,61 @@ public class UI extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Turing Machine Simulator");
+        stage.setMaxWidth(700);
+        stage.setMaxHeight(400);
+        Stage creationWindow = new Stage();
+        creationWindow.setMaxWidth(1050);
+        creationWindow.setMaxHeight(650);
         
-        //creates elements and sets the main scene
-        Button neww = new Button("New");
-        VBox menu = new VBox();
-        menu.getChildren().addAll(neww);
+        //creates elements for the main scene
+        //menu buttons on the left
+        Button neww = new Button("Create");
+        Button open = new Button("Open");
+        HBox menu = new HBox();
+        menu.getChildren().addAll(neww, open);
         menu.setPadding(new Insets(10,10,10,10));
         menu.setSpacing(10);
+        //place for output, input and simulate-button at the middle
+        VBox simulationArea = new VBox();
+        simulationArea.setAlignment(Pos.CENTER_RIGHT);
+        simulationArea.setPadding(new Insets(0,20,20,20));
+        simulationArea.setSpacing(10);
+        Label tmname = new Label("");
+        tmname.setFont(new Font("Arial",16));
+        TextArea output = new TextArea();
+        output.setMaxWidth(400);
+        HBox inputLine = new HBox();
+        inputLine.setSpacing(10);
+        inputLine.setAlignment(Pos.CENTER_RIGHT);
+        Label linput = new Label("Input: ");
+        TextField input = new TextField();
+        input.setPrefWidth(345);
+        inputLine.getChildren().addAll(linput,input);
+        Button start = new Button("Start simulation");
+        simulationArea.getChildren().addAll(tmname,output,inputLine,start);
+        //name, description, alphabet and states listed on the right
+        VBox information = new VBox();
+        information.setPadding(new Insets(0,20,20,0));
+        information.setSpacing(10);
+        information.setAlignment(Pos.CENTER_LEFT);
+        Label currentTMname = new Label("");
+        currentTMname.setWrapText(true);
+        currentTMname.setMaxWidth(200);
+        currentTMname.setPrefWidth(200);
+        Label currentTMdescription = new Label("");
+        currentTMdescription.setWrapText(true);
+        currentTMdescription.setMaxWidth(200);
+        Label currentTMalphabet = new Label("");
+        currentTMalphabet.setWrapText(true);
+        currentTMalphabet.setMaxWidth(200);
+        information.getChildren().addAll(currentTMname, currentTMdescription, currentTMalphabet);
+        //overall layout
         BorderPane layout = new BorderPane();
-        layout.setLeft(menu);
+        layout.setTop(menu);
+        layout.setCenter(simulationArea);
+        layout.setRight(information);
         
-        Scene main = new Scene(layout, 700, 700);
+        Scene main = new Scene(layout, 700, 400);
         
         //creates elements and sets the creation scene
         //name-row
@@ -78,21 +125,18 @@ public class UI extends Application {
         gp.add(tadesc, 1, 1);
         //instructions
         Label inst = new Label("Instructions:"
-                            + "\nSimulator uses \"-\" as a blank symbol. \"qa\" is the accepting state"
-                            + "\nand \"qr\" is the rejecting state (these are not acceptable names "
-                            + "\nfor your own states). Possible movements are left, right "
-                            + "\nand no movement written as L, R or N.\n" 
+                            + "\nSimulator uses \"-\" as a blank symbol. \"qa\" is the accepting state and \"qr\" is the rejecting state (these are not acceptable names for your own states). "
+                            + "Possible movements are left, right and no movement written as L, R or N.\n" 
                             + "\nThe first row is for the alphabet, enter one character into one cell."
-                            + "\nThe first column is for naming the states, the first state will be used "
-                            + "\nas the initial state.\n"
-                            + "\nThe other cells are for the instructions: give the instruction for "
-                            + "\nthe corresponding state of the row and the character of the column."
+                            + "\nThe first column is for naming the states, the first state will be used as the initial state.\n"
+                            + "\nThe other cells are for the instructions: give the instruction for the corresponding state of the row and the character of the column."
                             + "\nGive instructions in the following order separated by space: "
                             + "\ncharacter movement state."
                             + "\nFor example: "
                             + "\na R qar"
                             + "\nwhere 'a' is the character, 'R' is the movement and 'qar' is the state.");
-        inst.setMaxWidth(600);
+        inst.setWrapText(true);
+        inst.setMaxWidth(500);
         //transition table
         GridPane table = new GridPane();
         table.setGridLinesVisible(true);
@@ -156,11 +200,25 @@ public class UI extends Application {
         overall.setSpacing(10);
         overall.getChildren().addAll(v, v2);
         
-        Scene creation = new Scene(overall, 1150, 700);
+        Scene creation = new Scene(overall, 1050, 650);
         
-        //"New"-button: moves to the creation scene
+        //"Create"-button: moves to the creation scene
         neww.setOnAction((event) -> {
-            stage.setScene(creation);
+            creationWindow.setTitle("Create a Turing Machine");
+            creationWindow.setScene(creation);
+            creationWindow.show();
+        });
+        
+        //"Open" -button: opens a file chooser
+        open.setOnAction((event) -> {
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Choose Turing Machine");
+            fc.setInitialDirectory(new File(handle.getProjectFolder()));
+            handle.setUpTM(fc.showOpenDialog(stage));
+            tmname.setText(handle.getCurrentTMName());
+            currentTMname.setText("Name: " + handle.getCurrentTMName());
+            currentTMdescription.setText("Description: " + handle.getCurrentTMDescription());
+            currentTMalphabet.setText("Alphabet: " + handle.getCurrentTMAlphabet());
         });
         
         //"Add Row" -button
@@ -243,6 +301,7 @@ public class UI extends Application {
                 TextField t = (TextField) n;
                 t.clear();
             }
+            creationWindow.close();
             stage.setScene(main);
         });
         
@@ -291,6 +350,11 @@ public class UI extends Application {
                 TextField t = (TextField) n;
                 t.clear();
             }
+            tmname.setText(handle.getCurrentTMName());
+            currentTMname.setText("Name: " + handle.getCurrentTMName());
+            currentTMdescription.setText("Description: " + handle.getCurrentTMDescription());
+            currentTMalphabet.setText("Alphabet: "  +handle.getCurrentTMAlphabet());
+            creationWindow.close();
             stage.setScene(main);
         });
         

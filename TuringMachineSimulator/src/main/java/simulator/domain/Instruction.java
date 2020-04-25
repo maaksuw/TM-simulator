@@ -49,9 +49,9 @@ public class Instruction {
     @Override
     public String toString() {
         if (c == 0 && m == 0) {
-            return "(" + s + ")";
+            return s;
         }
-        return "(" + c + ", " + m + ", " + s + ")";
+        return c + " " + m + " " + s;
     }
     
 }

@@ -7,8 +7,7 @@ public class Simulator {
     private int state;
     private int head;
     
-    public Simulator(TuringMachine tm) {
-        this.tm = tm;
+    public Simulator() {
         this.state = 0;
     }
     
