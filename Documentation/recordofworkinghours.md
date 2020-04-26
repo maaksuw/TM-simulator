@@ -14,4 +14,5 @@ Date | Hours | Comments
 21.4.2020| 8 h |Updated the creation scene with transition table creation.
 22.4.2020| 8 h |Wrote tests for classes TuringMachine and Simulator. Prepared the first release and updated documentation.
 25.4.2020| 6 h |Continued creating the main window and wrote code for setting up the simulator.
-Total| 64 h
+26.4.2020| 6 h |Created first primitive version of visualization. It only works for turing machines that halt though!
+Total| 70 h
