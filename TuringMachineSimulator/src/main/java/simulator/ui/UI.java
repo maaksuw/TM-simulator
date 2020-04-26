@@ -3,20 +3,26 @@ package simulator.ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -44,7 +50,7 @@ public class UI extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("Turing Machine Simulator");
-        stage.setMaxWidth(700);
+        stage.setMaxWidth(1100);
         stage.setMaxHeight(400);
         Stage creationWindow = new Stage();
         creationWindow.setMaxWidth(1050);
@@ -54,8 +60,18 @@ public class UI extends Application {
         //menu buttons on the left
         Button neww = new Button("Create");
         Button open = new Button("Open");
+        ToggleGroup choises = new ToggleGroup();
+        RadioButton atonce = new RadioButton("Simulate without showing steps in-between");
+        atonce.setSelected(true);
+        atonce.setToggleGroup(choises);
+        RadioButton manually = new RadioButton("Simulate manually");
+        manually.setToggleGroup(choises);
+        RadioButton stepbystep = new RadioButton("Simulate step-by-step");
+        stepbystep.setToggleGroup(choises);
+        RadioButton fastsbs = new RadioButton("Simulate step-by-step (fast)");
+        fastsbs.setToggleGroup(choises);
         HBox menu = new HBox();
-        menu.getChildren().addAll(neww, open);
+        menu.getChildren().addAll(neww, open, atonce, manually, stepbystep, fastsbs);
         menu.setPadding(new Insets(10,10,10,10));
         menu.setSpacing(10);
         //place for output, input and simulate-button at the middle
@@ -64,18 +80,26 @@ public class UI extends Application {
         simulationArea.setPadding(new Insets(0,20,20,20));
         simulationArea.setSpacing(10);
         Label tmname = new Label("");
-        tmname.setFont(new Font("Arial",16));
-        TextArea output = new TextArea();
-        output.setMaxWidth(400);
+        tmname.setFont(new Font("Arial",18));
+        
+        Canvas canvas = new Canvas(800,200);
+        GraphicsContext drawer = canvas.getGraphicsContext2D();
+        drawer.setFill(Color.WHITE);
+        drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawer.setFill(Color.BLACK);
+        drawer.setFont(new Font("Arial",15));
+        
         HBox inputLine = new HBox();
         inputLine.setSpacing(10);
         inputLine.setAlignment(Pos.CENTER_RIGHT);
         Label linput = new Label("Input: ");
         TextField input = new TextField();
         input.setPrefWidth(345);
-        inputLine.getChildren().addAll(linput,input);
+        Label lresult = new Label("Result: ");
+        Label result = new Label("");
+        inputLine.getChildren().addAll(lresult,result,linput,input);
         Button start = new Button("Start simulation");
-        simulationArea.getChildren().addAll(tmname,output,inputLine,start);
+        simulationArea.getChildren().addAll(tmname,canvas,inputLine,start);
         //name, description, alphabet and states listed on the right
         VBox information = new VBox();
         information.setPadding(new Insets(0,20,20,0));
@@ -98,7 +122,40 @@ public class UI extends Application {
         layout.setCenter(simulationArea);
         layout.setRight(information);
         
-        Scene main = new Scene(layout, 700, 400);
+        AnimationTimer loop = new AnimationTimer(){
+            
+            long edellinen = 0;
+            boolean eka = true;
+            
+            @Override
+            public void handle(long nykyhetki){
+                if((nykyhetki - edellinen) < 1e9){
+                    return;
+                }
+                if(eka){
+                    drawer.strokeText(handle.getTape(), 0, 110);
+                    this.edellinen = nykyhetki;
+                    eka = false;
+                    return;
+                }
+                String step = handle.simulateStep();
+                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Calculation halted")){
+                    result.setText(step);
+                    this.stop();
+                    eka = true;
+                    return;
+                }
+                drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.WHITE);
+                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.BLACK);
+                drawer.strokeText(step, 0, 110);
+                this.edellinen = nykyhetki; 
+            }
+            
+        };
+        
+        Scene main = new Scene(layout, 1100, 400);
         
         //creates elements and sets the creation scene
         //name-row
@@ -125,7 +182,7 @@ public class UI extends Application {
         gp.add(tadesc, 1, 1);
         //instructions
         Label inst = new Label("Instructions:"
-                            + "\nSimulator uses \"-\" as a blank symbol. \"qa\" is the accepting state and \"qr\" is the rejecting state (these are not acceptable names for your own states). "
+                            + "\nSimulator uses \"_\" as a blank symbol. \"qa\" is the accepting state and \"qr\" is the rejecting state (these are not acceptable names for your own states). "
                             + "Possible movements are left, right and no movement written as L, R or N.\n" 
                             + "\nThe first row is for the alphabet, enter one character into one cell."
                             + "\nThe first column is for naming the states, the first state will be used as the initial state.\n"
@@ -202,6 +259,29 @@ public class UI extends Application {
         
         Scene creation = new Scene(overall, 1050, 650);
         
+        
+        //"Start simulation" -button starts the simulation
+        start.setOnAction((event) -> {
+            if(atonce.isSelected()){
+                drawer.setFill(Color.WHITE);
+                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.BLACK);
+                int resultt = handle.simulate(input.getText().trim());
+                if(resultt == 1) result.setText("Accepted");
+                else {
+                    result.setText("Rejected");
+                }
+            }
+            if(stepbystep.isSelected()){
+                drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.WHITE);
+                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.BLACK);
+                handle.setUpStepByStep(input.getText().trim());
+                loop.start();
+            }
+        });
+        
         //"Create"-button: moves to the creation scene
         neww.setOnAction((event) -> {
             creationWindow.setTitle("Create a Turing Machine");
@@ -214,11 +294,14 @@ public class UI extends Application {
             FileChooser fc = new FileChooser();
             fc.setTitle("Choose Turing Machine");
             fc.setInitialDirectory(new File(handle.getProjectFolder()));
-            handle.setUpTM(fc.showOpenDialog(stage));
-            tmname.setText(handle.getCurrentTMName());
-            currentTMname.setText("Name: " + handle.getCurrentTMName());
-            currentTMdescription.setText("Description: " + handle.getCurrentTMDescription());
-            currentTMalphabet.setText("Alphabet: " + handle.getCurrentTMAlphabet());
+            File f = fc.showOpenDialog(stage);
+            if(f != null){
+                handle.setUpTM(f);
+                tmname.setText(handle.getCurrentTMName());
+                currentTMname.setText("Name: " + handle.getCurrentTMName());
+                currentTMdescription.setText("Description: " + handle.getCurrentTMDescription());
+                currentTMalphabet.setText("Alphabet: " + handle.getCurrentTMAlphabet());
+            }
         });
         
         //"Add Row" -button

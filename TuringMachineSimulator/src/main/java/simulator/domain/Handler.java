@@ -3,7 +3,6 @@ package simulator.domain;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import simulator.dao.ManagerDao;
 import simulator.dao.TMDao;
 
@@ -30,6 +29,7 @@ public class Handler {
         try {
             if(tmdao.create(tm)){
                 currentTM = tm;
+                sakke.setTm(tm);
                 return true;
             }
             return false;
@@ -98,7 +98,20 @@ public class Handler {
         return currentTM.toStringAlphabet();
     }
     
-    public void simulate() {
-        
+    public String getTape(){
+        return sakke.printTape();
+    }
+    
+    public int simulate(String input) {
+        int result = sakke.simulate(input);
+        return result;
+    }
+    
+    public void setUpStepByStep(String input){
+        sakke.setUpStepByStep(input);
+    }
+    
+    public String simulateStep(){
+        return sakke.simulateStep();
     }
 }

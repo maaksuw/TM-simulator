@@ -102,7 +102,7 @@ public class SimulatorTest {
     
     @Test
     public void simulatesCorrectly2() {
-        String input = "abbaaaabba";
+        String input = "abbbbbbbba";
         assertEquals(sakke.simulate(input),1);
     }
     
