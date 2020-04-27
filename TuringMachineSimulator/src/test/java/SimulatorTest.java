@@ -10,13 +10,21 @@ public class SimulatorTest {
     
     private Simulator sakke;
     private TuringMachine tm;
+    private int limit;
+    private int tapeLimit;
+    
+    public SimulatorTest(){
+        sakke = new Simulator();
+        limit = 1000000;
+        tapeLimit = 3000000;
+    }
     
     @Before
     public void setUp() {
         char[] alphabet = new char[3];
         alphabet[0] = 'a';
         alphabet[1] = 'b';
-        alphabet[2] = '-';
+        alphabet[2] = '_';
         String[] states = new String[7];
         states[0] = "qA";
         states[1] = "qar";
@@ -26,29 +34,28 @@ public class SimulatorTest {
         states[5] = "qL";
         states[6] = "qB";
         Instruction[][] t = new Instruction[7][3];
-        t[0][0] = new Instruction('-','R',"qar");
-        t[0][1] = new Instruction('-','R',"qbr");
+        t[0][0] = new Instruction('_','R',"qar");
+        t[0][1] = new Instruction('_','R',"qbr");
         t[0][2] = new Instruction("qa");
         t[1][0] = new Instruction('a','R',"qar");
         t[1][1] = new Instruction('b','R',"qar");
-        t[1][2] = new Instruction('-','L',"qCa");
+        t[1][2] = new Instruction('_','L',"qCa");
         t[2][0] = new Instruction('a','R',"qbr");
         t[2][1] = new Instruction('b','R',"qbr");
-        t[2][2] = new Instruction('-','L',"qCb");
-        t[3][0] = new Instruction('-','L',"qL");
+        t[2][2] = new Instruction('_','L',"qCb");
+        t[3][0] = new Instruction('_','L',"qL");
         t[3][1] = new Instruction("qr");
         t[3][2] = new Instruction("qa");
         t[4][0] = new Instruction("qr");
-        t[4][1] = new Instruction('-','L',"qL");
+        t[4][1] = new Instruction('_','L',"qL");
         t[4][2] = new Instruction("qa");
         t[5][0] = new Instruction('a','L',"qB");
         t[5][1]= new Instruction('b','L',"qB");
         t[5][2] = new Instruction("qa");
         t[6][0] = new Instruction('a','L',"qB");
         t[6][1] = new Instruction('b','L',"qB");
-        t[6][2] = new Instruction('-','R',"qA");
+        t[6][2] = new Instruction('_','R',"qA");
         tm = new TuringMachine("Makke","Helps in testing.",t,alphabet,states);
-        sakke = new Simulator();
         sakke.setTm(tm);
     }
     
@@ -95,25 +102,30 @@ public class SimulatorTest {
     }
     
     @Test
-    public void simulatesCorreclty1() {
-        String input = "abbaabaabba";
-        assertEquals(sakke.simulate(input),1);
+    public void setUpSimulatorDoesntThrowError(){
+        boolean error = false;
+        try {
+            sakke.setUpSimulator("abaaba", limit, tapeLimit);
+        } catch (OutOfMemoryError e){
+            error = true;
+        }
+        assertFalse(error);
     }
     
     @Test
-    public void simulatesCorrectly2() {
+    public void simulateSimulatesCorrectlySmall1() {
         String input = "abbbbbbbba";
-        assertEquals(sakke.simulate(input),1);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
     }
     
     @Test
-    public void simulatesCorrectly3() {
+    public void simulateSimulatesCorrectlySmall2() {
         String input = "abbaaabaabba";
-        assertEquals(sakke.simulate(input),0);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),0);
     }
     
     @Test
-    public void simulatesCorrectly4() {
+    public void simulateSimulatesCorrectlyLarge1() {
         String input;
         String str = "babbabbbababbababbababbbaabbaaaa";
         String str2 = "";
@@ -121,34 +133,34 @@ public class SimulatorTest {
             str2 = str.charAt(i) + str2;
         }
         input = str + str2;
-        assertEquals(sakke.simulate(input),1);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
     }
     
     @Test
-    public void simulatesCorrectly5() {
+    public void simulateSimulatesCorrectlyIfInputSize1() {
         String input = "a";
-        assertEquals(sakke.simulate(input),1);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
     }
     
     @Test
-    public void simulatesCorrectly6() {
+    public void simulateSimulatesCorrectlyIfInputEmpty() {
         String input = "";
-        assertEquals(sakke.simulate(input),1);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
     }
     
     @Test
-    public void simulatesCorrectly7() {
+    public void simulateReturnsNegative1IfInstructionNull() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qA"};
         Instruction[][] inst = new Instruction[2][2];
         TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
         sakke.setTm(tm2);
         String input = "aba";
-        assertEquals(sakke.simulate(input),0);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),-1);
     }
     
     @Test
-    public void simulatesCorrectly8() {
+    public void simulateReturnsNegative1IfInstructionEmpty() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qA"};
         Instruction[][] inst = new Instruction[2][2];
@@ -156,6 +168,6 @@ public class SimulatorTest {
         TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
         sakke.setTm(tm2);
         String input = "aba";
-        assertEquals(sakke.simulate(input),0);
+        assertEquals(sakke.simulate(input, limit, tapeLimit),-1);
     }
 }

@@ -14,4 +14,5 @@ public interface TMDao {
     String readAlphabet();
     String readStates();
     String[][] readTable(int alphabets, int states);
+    
 }

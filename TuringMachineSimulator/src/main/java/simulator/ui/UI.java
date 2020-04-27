@@ -57,7 +57,7 @@ public class UI extends Application {
         creationWindow.setMaxHeight(650);
         
         //creates elements for the main scene
-        //menu buttons on the left
+        //menu buttons at the top
         Button neww = new Button("Create");
         Button open = new Button("Open");
         ToggleGroup choises = new ToggleGroup();
@@ -90,16 +90,28 @@ public class UI extends Application {
         drawer.setFont(new Font("Arial",15));
         
         HBox inputLine = new HBox();
-        inputLine.setSpacing(10);
+        inputLine.setSpacing(8);
         inputLine.setAlignment(Pos.CENTER_RIGHT);
         Label linput = new Label("Input: ");
         TextField input = new TextField();
         input.setPrefWidth(345);
+        Label lstepLimit = new Label("Step limit: ");
+        TextField stepLimit = new TextField();
+        stepLimit.setText("1000000");
+        stepLimit.setPrefWidth(100);
+        Label ltapeSize = new Label("Tape size limit: ");
+        TextField tapeSize = new TextField("");
+        tapeSize.setText("3000000");
+        tapeSize.setPrefWidth(100);
+        inputLine.getChildren().addAll(ltapeSize,tapeSize,lstepLimit,stepLimit,linput,input);
+        HBox resultLine = new HBox();
+        resultLine.setAlignment(Pos.CENTER_RIGHT);
+        resultLine.setSpacing(10);
+        Button start = new Button("Start simulation");
         Label lresult = new Label("Result: ");
         Label result = new Label("");
-        inputLine.getChildren().addAll(lresult,result,linput,input);
-        Button start = new Button("Start simulation");
-        simulationArea.getChildren().addAll(tmname,canvas,inputLine,start);
+        resultLine.getChildren().addAll(lresult,result,start);
+        simulationArea.getChildren().addAll(tmname,canvas,inputLine,resultLine);
         //name, description, alphabet and states listed on the right
         VBox information = new VBox();
         information.setPadding(new Insets(0,20,20,0));
@@ -139,8 +151,13 @@ public class UI extends Application {
                     return;
                 }
                 String step = handle.simulateStep();
-                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Calculation halted")){
+                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.")){
                     result.setText(step);
+                    this.stop();
+                    eka = true;
+                    return;
+                } else if (step.equals("Terminated after")){
+                    result.setText(step + " " + stepLimit.getText() + " steps.");
                     this.stop();
                     eka = true;
                     return;
@@ -259,17 +276,24 @@ public class UI extends Application {
         
         Scene creation = new Scene(overall, 1050, 650);
         
-        
         //"Start simulation" -button starts the simulation
         start.setOnAction((event) -> {
+            result.setText("");
+            int limit = Integer.valueOf(stepLimit.getText().trim());
+            int tapeLimit = Integer.valueOf(tapeSize.getText().trim());
+            if(tapeLimit < 140){
+                tapeLimit = 140;
+                tapeSize.setText("140");
+            }
             if(atonce.isSelected()){
                 drawer.setFill(Color.WHITE);
                 drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.setFill(Color.BLACK);
-                int resultt = handle.simulate(input.getText().trim());
-                if(resultt == 1) result.setText("Accepted");
-                else {
-                    result.setText("Rejected");
+                String resultt = handle.simulate(input.getText().trim(), limit, tapeLimit);
+                if(resultt.equals("Terminated after")){
+                    result.setText(resultt + " " + limit + " steps.");
+                } else {
+                    result.setText(resultt);
                 }
             }
             if(stepbystep.isSelected()){
@@ -277,8 +301,11 @@ public class UI extends Application {
                 drawer.setFill(Color.WHITE);
                 drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.setFill(Color.BLACK);
-                handle.setUpStepByStep(input.getText().trim());
-                loop.start();
+                if(handle.setUpStepByStep(input.getText().trim(), limit, tapeLimit)){
+                    loop.start();
+                } else {
+                    result.setText("Input size exceeds tape limit.");
+                }
             }
         });
         
