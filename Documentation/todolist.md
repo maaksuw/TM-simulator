@@ -1,16 +1,20 @@
 # To do
 ## UI
 - [x] Create GUI for simulation
-- [x] Create menu to the main scene
+- [ ] Enable faster animation
+- [ ] Make a better animation
+- [ ] Animate head with a triangle
+- [x] Create the main scene
 - [ ] Check if the user has filled in all necessary information in creation scene
 - [ ] Add a default column for blank symbol, tag for initial state and labels for alphabet and states
-- [ ] Make it so that creation opens to its own window
+- [x] Make it so that creation opens to its own window
 ## Domain
-- [ ] Limit the wait time when the turing machine doesn't halt
-- [ ] Limit the maximum input size to million, maximum tape size to 3 million
+- [x] Limit the amount of steps when the turing machine doesn't halt
+- [x] Limit maximum tape size
+- [ ] Limit input size
 - [ ] Let user define initial, accepting and rejecting states
-- [ ] Add more choices to creation to make it easier to create a table by hand
 - [ ] Make input from file possible
+- [ ] Add more choices to creation to make it easier to create a table by hand
 ## Miscellaenous
 - [ ] Remove source.txt
 - [ ] Figure how to make JUnit-test for Dao classes
