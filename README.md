@@ -13,7 +13,9 @@ The purpose of the software is to simulate a turing machine. The program constru
 
 [Week 5](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week5)
 ## Command Line commands
-Runs the program from the command line, if you have cloned the project.
+All commands should be run from the folder that contains pom.xml file.
+
+This command runs the program from the command line, if you have cloned the project.
 ```
 mvn compile exec:java -Dexec.mainClass=simulator.domain.Main
 ```
