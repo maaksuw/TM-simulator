@@ -110,67 +110,70 @@ public class SimulatorTest {
     @Test
     public void initTapeTapeLengthCorrect1(){
         sakke.setUpSimulator("", limit, tapeLimit);
-        assertEquals(sakke.getTapeLength(),69);
+        assertEquals(sakke.getTapeLength(),137);
     }
     
     @Test
     public void initTapeHeadPositionCorrect(){
         sakke.setUpSimulator("", limit, tapeLimit);
-        assertEquals(sakke.getHeadPosition(),34);
+        assertEquals(sakke.getHeadPosition(),68);
     }
     
     @Test
     public void initTapeTapeLengthCorrect2(){
         sakke.setUpSimulator("a", limit, tapeLimit);
-        assertEquals(sakke.getTapeLength(),69);
+        assertEquals(sakke.getTapeLength(),137);
     }
     
     @Test
     public void initTapeHeadPositionCorrect2(){
         sakke.setUpSimulator("a", limit, tapeLimit);
-        assertEquals(sakke.getHeadPosition(),34);
+        assertEquals(sakke.getHeadPosition(),68);
     }
     
     @Test
     public void initTapeTapeLengthCorrect3(){
-        String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getTapeLength(),69);
+        assertEquals(sakke.getTapeLength(),137);
     }
     
     @Test
     public void initTapeHeadPositionCorrect3(){
-        String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getHeadPosition(),34);
+        assertEquals(sakke.getHeadPosition(),68);
     }
     
     @Test
     public void initTapeTapeLengthCorrect4(){
         String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getTapeLength(),70);
+        assertEquals(sakke.getTapeLength(),172);
     }
     
     @Test
     public void initTapeHeadPositionCorrect4(){
         String input = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab";
+        input += input;
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getHeadPosition(),34);
+        assertEquals(sakke.getHeadPosition(),68);
     }
     
     @Test
     public void initTapeTapeLengthCorrect5(){
         String input = "aaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaa";
+        input += input;
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getTapeLength(),83);
+        assertEquals(sakke.getTapeLength(),234);
     }
     
     @Test
     public void initTapeHeadPositionCorrect5(){
         String input = "aaaaaaaaaaaaaaaaaaaaaaabaaaaaaaaaaaaaaaaaaaaaaaaa";
+        input += input;
         sakke.setUpSimulator(input, limit, tapeLimit);
-        assertEquals(sakke.getHeadPosition(),34);
+        assertEquals(sakke.getHeadPosition(),68);
     }
     
     @Test
@@ -231,8 +234,114 @@ public class SimulatorTest {
     }
     
     @Test
+    public void simulateStepReturnsAccepted(){
+        sakke.setUpSimulator("aba", limit, tapeLimit);
+        String result = "";
+        for(int i = 0; i < 10; i++){
+            result = sakke.simulateStep();
+        }
+        assertEquals(result, "Accepted");
+    }
+    
+    @Test
+    public void simulateStepReturnsRejected(){
+        sakke.setUpSimulator("ab", limit, tapeLimit);
+        String result = "";
+        for(int i = 0; i < 4; i++){
+            result = sakke.simulateStep();
+        }
+        assertEquals(result,"Rejected");
+    }
+    
+    @Test
     public void simulateStepReturnsTapeLimitExceeded(){
-        
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','L',"qA");
+        inst[0][1] = new Instruction('_','L',"qA");
+        inst[1][0] = new Instruction('a','L',"qA");
+        inst[1][1] = new Instruction('_','L',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        sakke.setUpSimulator("a", limit, 140);
+        boolean b = false;
+        while(true){
+            if(sakke.simulateStep().equals("Tape limit exceeded.")) {
+                b = true;
+                break;
+            }
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void simulateStepGrowTapeWorks(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','L',"qA");
+        inst[0][1] = new Instruction('_','L',"qA");
+        inst[1][0] = new Instruction('a','L',"qA");
+        inst[1][1] = new Instruction('_','L',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        sakke.setUpSimulator("a", limit, 300);
+        boolean b = false;
+        while(true){
+            sakke.simulateStep();
+            if(sakke.getTapeLength() > 137) {
+                b = true;
+                break;
+            }
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void simulateStepReturnsTapeLimitExceeded2(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','R',"qA");
+        inst[0][1] = new Instruction('_','R',"qA");
+        inst[1][0] = new Instruction('a','R',"qA");
+        inst[1][1] = new Instruction('_','R',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        sakke.setUpSimulator("a", limit, 140);
+        boolean b = false;
+        while(true){
+            if(sakke.simulateStep().equals("Tape limit exceeded.")) {
+                b = true;
+                break;
+            }
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void simulateStepGrowTapeWorks2(){
+        System.out.println("simulateStepGrowTapeWorks2");
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','R',"qA");
+        inst[0][1] = new Instruction('_','R',"qA");
+        inst[1][0] = new Instruction('a','R',"qA");
+        inst[1][1] = new Instruction('_','R',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        sakke.setUpSimulator("a", limit, 300);
+        boolean b = false;
+        while(true){
+            sakke.simulateStep();
+            if(sakke.getTapeLength() > 137) {
+                b = true;
+                break;
+            }
+        }
+        assertTrue(b);
     }
     
     @Test
@@ -253,23 +362,42 @@ public class SimulatorTest {
         assertEquals(bit,tape.toString());
     }
     
-    
-    
-    
-    
-    
-    
-    
     @Test
-    public void simulateSimulatesCorrectlyIfInputSize1() {
-        String input = "a";
-        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
+    public void simulateStepSimulatesCorrectly(){
+        sakke.setUpSimulator("abba", limit, tapeLimit);
+        String result = "";
+        for(int i = 0; i < 14; i++){
+            result = sakke.simulateStep();
+        }
+        assertEquals(result,"Accepted");
     }
     
     @Test
-    public void simulateSimulatesCorrectlyIfInputEmpty() {
-        String input = "";
-        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
+    public void simulateStepSimulatesCorrectly2(){
+        sakke.setUpSimulator("abbababbba", limit, tapeLimit);
+        boolean b = false;
+        while(true){
+            if(sakke.simulateStep().equals("Rejected")){
+                b = true;
+                break;
+            }
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void simulateReturns888IfInputSizeOverTapeLimit(){
+        assertEquals(sakke.simulate("abbabababababa", limit, 5),888);
+    }
+    
+    @Test
+    public void simulateCounterOverLimitReturnsNegative10(){
+        assertEquals(sakke.simulate("babababaaaabbabbabb", 10, tapeLimit),-10);
+    }
+    
+    @Test
+    public void simulateReturns666ForBadInput(){
+        assertEquals(sakke.simulate("cdcdcdcdcdcdc", limit, tapeLimit),666);
     }
     
     @Test
@@ -296,6 +424,18 @@ public class SimulatorTest {
     }
     
     @Test
+    public void simulateSimulatesCorrectlyIfInputSize1() {
+        String input = "a";
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
+    }
+    
+    @Test
+    public void simulateSimulatesCorrectlyIfInputEmpty() {
+        String input = "";
+        assertEquals(sakke.simulate(input, limit, tapeLimit),1);
+    }
+    
+    @Test
     public void simulateSimulatesCorrectlySmall1() {
         String input = "abbbbbbbba";
         assertEquals(sakke.simulate(input, limit, tapeLimit),1);
@@ -317,5 +457,77 @@ public class SimulatorTest {
         }
         input = str + str2;
         assertEquals(sakke.simulate(input, limit, tapeLimit),1);
+    }
+    
+    @Test
+    public void simulateSimulatesCorrectlyLarge2() {
+        String input;
+        String str = "babbabbbababbababbababbbaabbaaaa";
+        String str2 = "";
+        for (int i = 0; i < str.length(); i++) {
+            str2 = str.charAt(i) + str2;
+        }
+        input = str + str2 + "b";
+        assertEquals(sakke.simulate(input, limit, tapeLimit),0);
+    }
+    
+    @Test
+    public void simulateReturnsNegative13IfTapeLimitExceeded(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','L',"qA");
+        inst[0][1] = new Instruction('_','L',"qA");
+        inst[1][0] = new Instruction('a','L',"qA");
+        inst[1][1] = new Instruction('_','L',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        int result = sakke.simulate("a", limit, 140);
+        assertEquals(result,-13);
+    }
+    
+    @Test
+    public void simulateReturnsNegative13IfTapeLimitExceeded2(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','R',"qA");
+        inst[0][1] = new Instruction('_','R',"qA");
+        inst[1][0] = new Instruction('a','R',"qA");
+        inst[1][1] = new Instruction('_','R',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        int result = sakke.simulate("_a_a___", limit, 140);
+        assertEquals(result, -13);
+    }
+    
+    @Test
+    public void growTapeWorksPositiveSimulate(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','R',"qA");
+        inst[0][1] = new Instruction('_','R',"qA");
+        inst[1][0] = new Instruction('a','R',"qA");
+        inst[1][1] = new Instruction('_','R',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        int result = sakke.simulate("_a_a___", limit, 600);
+        assertEquals(result, -13);
+    }
+    
+    @Test
+    public void growTapeWorksNegativeSimulate(){
+        char[] alphabet = new char[]{'a','_'};
+        String[] states = new String[]{"q0","qA"};
+        Instruction[][] inst = new Instruction[2][2];
+        inst[0][0] = new Instruction('a','L',"qA");
+        inst[0][1] = new Instruction('_','L',"qA");
+        inst[1][0] = new Instruction('a','L',"qA");
+        inst[1][1] = new Instruction('_','L',"qA");
+        TuringMachine tm2 = new TuringMachine("name", "description", inst, alphabet, states);
+        sakke.setTM(tm2);
+        int result = sakke.simulate("_a_a_", limit, 600);
+        assertEquals(result, -13);
     }
 }

@@ -281,15 +281,19 @@ public class UI extends Application {
             result.setText("");
             int limit = Integer.valueOf(stepLimit.getText().trim());
             int tapeLimit = Integer.valueOf(tapeSize.getText().trim());
-            if(tapeLimit < 140){
-                tapeLimit = 140;
-                tapeSize.setText("140");
+            String inputt = input.getText().trim();
+            int inputtSize = inputt.length();
+            if(inputtSize < 35){
+                tapeLimit = Math.max(140, tapeLimit);
+            } else {
+                tapeLimit = Math.max(tapeLimit, (140 + inputt.length()));
             }
+            tapeSize.setText("" + tapeLimit);
             if(atonce.isSelected()){
                 drawer.setFill(Color.WHITE);
                 drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.setFill(Color.BLACK);
-                String resultt = handle.simulate(input.getText().trim(), limit, tapeLimit);
+                String resultt = handle.simulate(inputt, limit, tapeLimit);
                 if(resultt.equals("Terminated after")){
                     result.setText(resultt + " " + limit + " steps.");
                 } else {
@@ -301,7 +305,7 @@ public class UI extends Application {
                 drawer.setFill(Color.WHITE);
                 drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.setFill(Color.BLACK);
-                if(handle.setUpStepByStep(input.getText().trim(), limit, tapeLimit)){
+                if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
                     loop.start();
                 } else {
                     result.setText("Input size exceeds tape limit.");

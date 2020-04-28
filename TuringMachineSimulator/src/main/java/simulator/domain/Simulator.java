@@ -208,7 +208,7 @@ public class Simulator {
             if (a == 'R') {
                 head++;
                 try {
-                    if (head + length > tape.length - 1) {
+                    if (head + length > (tape.length - 1)) {
                         growTape(1);
                     }
                 } catch(OutOfMemoryError e){
@@ -230,11 +230,11 @@ public class Simulator {
         if(n >= tapeLimit){
             throw new OutOfMemoryError();
         }
-        head = length;
-        if(n <= length+1) {
-            tape = new char[(length * 2) + 1];
+        head = length * 2;
+        if(n <= length) {
+            tape = new char[(length * 4) + 1];
         } else {
-            tape = new char[n + length];
+            tape = new char[n + (length * 4)];
         }
         for (int i = 0; i < tape.length; i++) {
             tape[i] = '_';
@@ -263,8 +263,10 @@ public class Simulator {
         }
         if(o < 0){
             head += n;
-            for(int i = n; i < 2 * n; i++){
-                t[i] = tape[i];
+            int idx = n;
+            for(int i = 0; i < n; i++){
+                t[idx] = tape[i];
+                idx++;
             }
         } else {
             for(int i = 0; i < n; i++){
