@@ -33,7 +33,10 @@ mvn package
 ```
 Running the command creates a jar file TuringMachineSimulator-1.0-SNAPSHOT.jar to the *target* folder.
 ### JavaDoc
-To be added.
+Generates a JavaDoc for the project.
+```
+mvn javadoc:javadoc
+```
 ### CheckStyle
 Generates a CheckStyle report checkstyle.html in the target/site folder.
 ```
