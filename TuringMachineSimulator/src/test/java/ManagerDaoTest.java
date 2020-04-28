@@ -1,15 +1,17 @@
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import simulator.dao.FileManagerDao;
+import simulator.dao.ManagerDao;
 
 public class ManagerDaoTest {
     
+    private ManagerDao mao;
+    
     public ManagerDaoTest() {
-        
+        mao = new FileManagerDao();
     }
     
     @Before
@@ -18,6 +20,11 @@ public class ManagerDaoTest {
     
     @After
     public void tearDown() {
+    }
+    
+    @Test
+    public void programFolderCreated(){
+        
     }
     
 }

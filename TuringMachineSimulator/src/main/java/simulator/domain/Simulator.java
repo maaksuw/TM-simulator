@@ -45,7 +45,7 @@ public class Simulator {
      * A helper method for testing.
      * @return Tape length.
      */
-    public int getTapeLength(){
+    public int getTapeLength() {
         return tape.length;
     }
     
@@ -54,7 +54,7 @@ public class Simulator {
      * A helper method for testing.
      * @return Integer indicating the heads position on the tape.
      */
-    public int getHeadPosition(){
+    public int getHeadPosition() {
         return head;
     }
     
@@ -71,7 +71,7 @@ public class Simulator {
      * Sets the amount of steps after which the simulator will halt the calculation.
      * @param limit Step limit.
      */
-    private void setLimit(int limit){
+    private void setLimit(int limit) {
         this.limit = limit;
     }
     
@@ -80,14 +80,14 @@ public class Simulator {
      * If the simulator tries to grow the tape beyond this limit, the calculation will halt.
      * @param tapeLimit Maximum tape length.
      */
-    private void setTapeLimit(int tapeLimit){
+    private void setTapeLimit(int tapeLimit) {
         this.tapeLimit = tapeLimit;
     }
     
     /*
      * Resets the counter value to 0.
      */
-    private void resetCounter(){
+    private void resetCounter() {
         this.counter = 0;
     }
     
@@ -113,10 +113,10 @@ public class Simulator {
      */
     public String simulateStep() {
         Instruction[][] table = tm.getTable();
-        if(counter >= limit) {
+        if (counter >= limit) {
             return "Terminated after";
         }
-        if(tm.searchCharacterIndex(tape[head]) == -1){
+        if (tm.searchCharacterIndex(tape[head]) == -1) {
             return "Bad input for this machine.";
         }
         Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
@@ -137,7 +137,7 @@ public class Simulator {
                 if (head - length < 0) {
                     growTape(-1);
                 }
-            } catch(OutOfMemoryError e) {
+            } catch (OutOfMemoryError e) {
                 return "Tape limit exceeded.";
             }
         }
@@ -147,7 +147,7 @@ public class Simulator {
                 if (head + length > (tape.length - 1)) {
                     growTape(1);
                 }
-            } catch(OutOfMemoryError e) {
+            } catch (OutOfMemoryError e) {
                 return "Tape limit exceeded.";
             }
         }
@@ -172,15 +172,15 @@ public class Simulator {
     public int simulate(String input, int limit, int tapeLimit) {
         try {
             setUpSimulator(input, limit, tapeLimit);
-        } catch (OutOfMemoryError e){
+        } catch (OutOfMemoryError e) {
             return 888;
         }
         Instruction[][] table = tm.getTable();
         while (true) {
-            if(counter >= limit){
+            if (counter >= limit) {
                 return -10;
             }
-            if(tm.searchCharacterIndex(tape[head]) == -1){
+            if (tm.searchCharacterIndex(tape[head]) == -1) {
                 return 666;
             }
             Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
@@ -201,7 +201,7 @@ public class Simulator {
                     if (head - length < 0) {
                         growTape(-1);
                     }
-                } catch(OutOfMemoryError e){
+                } catch (OutOfMemoryError e) {
                     return -13;
                 }
             }
@@ -211,7 +211,7 @@ public class Simulator {
                     if (head + length > (tape.length - 1)) {
                         growTape(1);
                     }
-                } catch(OutOfMemoryError e){
+                } catch (OutOfMemoryError e) {
                     return -13;
                 } 
             }
@@ -227,11 +227,11 @@ public class Simulator {
      */
     private void initTape(String input) {
         int n = input.length();
-        if(n >= tapeLimit){
+        if (n >= tapeLimit) {
             throw new OutOfMemoryError();
         }
         head = length * 2;
-        if(n <= length) {
+        if (n <= length) {
             tape = new char[(length * 4) + 1];
         } else {
             tape = new char[n + (length * 4)];
@@ -254,22 +254,22 @@ public class Simulator {
      */
     private void growTape(int o) {
         int n = tape.length;
-        if(n + n >= tapeLimit){
+        if (n + n >= tapeLimit) {
             throw new OutOfMemoryError();
         }
         char[] t = new char[n + n];
-        for(int i = 0; i < t.length; i++){
+        for (int i = 0; i < t.length; i++) {
             t[i] = '_';
         }
-        if(o < 0){
+        if (o < 0) {
             head += n;
             int idx = n;
-            for(int i = 0; i < n; i++){
+            for (int i = 0; i < n; i++) {
                 t[idx] = tape[i];
                 idx++;
             }
         } else {
-            for(int i = 0; i < n; i++){
+            for (int i = 0; i < n; i++) {
                 t[i] = tape[i];
             }
         }
@@ -285,15 +285,15 @@ public class Simulator {
         StringBuilder situation = new StringBuilder();
         int alku = head - length;
         int loppu = head + length;
-        for(int j = alku; j <= loppu; j++){
-                if(j == head){
-                    situation.append("[").append(tape[j]).append("]");
-                } else if(j == (head -1)) {
-                    situation.append(tape[j]);
-                } else {
-                    situation.append(tape[j]).append(" ");
-                }
+        for (int j = alku; j <= loppu; j++) {
+            if (j == head) {
+                situation.append("[").append(tape[j]).append("]");
+            } else if (j == (head - 1)) {
+                situation.append(tape[j]);
+            } else {
+                situation.append(tape[j]).append(" ");
             }
+        }
         return situation.toString();
     }
     

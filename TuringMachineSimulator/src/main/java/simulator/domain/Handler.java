@@ -30,7 +30,7 @@ public class Handler {
      * @see simulator.dao.ManagerDao#getProjectFolder() 
      * @return Absolute path of the current program folder where the Turing machine files are located.
      */
-    public String getProjectFolder(){
+    public String getProjectFolder() {
         return mao.getProjectFolder();
     }
     
@@ -50,7 +50,7 @@ public class Handler {
         Instruction[][] t = createInstructionTable(table);
         TuringMachine tm = new TuringMachine(name, description, t, alphabet, states);
         try {
-            if(tmdao.create(tm)){
+            if (tmdao.create(tm)) {
                 currentTM = tm;
                 sakke.setTM(tm);
                 return true;
@@ -100,7 +100,7 @@ public class Handler {
      * @see simulator.dao.TMDao#readTable(int, int) 
      * @param f File describing the Turing machine in the accepted format. 
      */
-    public void setUpTM(File f){
+    public void setUpTM(File f) {
         tmdao.prepareReader(f);
         String name = tmdao.readName();
         String description = tmdao.readDescription();
@@ -119,10 +119,10 @@ public class Handler {
      * @param characters String of the characters separated by space.
      * @return Char array.
      */
-    private char[] createAlphabet(String characters){
+    private char[] createAlphabet(String characters) {
         String[] bits = characters.split(" ");
         char[] alphabet = new char[bits.length];
-        for(int i = 0; i < bits.length; i++){
+        for (int i = 0; i < bits.length; i++) {
             alphabet[i] = bits[i].charAt(0);
         }
         return alphabet;
@@ -134,7 +134,7 @@ public class Handler {
      * @param states String of the state names separated by space.
      * @return 
      */
-    private String[] createStates(String states){
+    private String[] createStates(String states) {
         String[] bits = states.split(" ");
         return bits;
     }
@@ -143,7 +143,7 @@ public class Handler {
      * Returns the name of the Turing machine currently attached to the simulator.
      * @return Name of the Turing machine.
      */
-    public String getCurrentTMName(){
+    public String getCurrentTMName() {
         return currentTM.getName();
     }
     
@@ -151,7 +151,7 @@ public class Handler {
      * Returns the description of the Turing machine currently attached to the simulator.
      * @return Description of the Turing machine.
      */
-    public String getCurrentTMDescription(){
+    public String getCurrentTMDescription() {
         return currentTM.getDescription();
     }
     
@@ -159,7 +159,7 @@ public class Handler {
      * Returns the alphabet of the Turing machine currently attached to the simulator.
      * @return Alphabet of the Turing machine.
      */
-    public String getCurrentTMAlphabet(){
+    public String getCurrentTMAlphabet() {
         return currentTM.toStringAlphabet();
     }
     
@@ -169,7 +169,7 @@ public class Handler {
      * @see simulator.domain.Simulator#printTape() 
      * @return String representing the tape.
      */
-    public String getTape(){
+    public String getTape() {
         return sakke.printTape();
     }
     
@@ -184,15 +184,15 @@ public class Handler {
      */
     public String simulate(String input, int limit, int tapeLimit) {
         int result = sakke.simulate(input, limit, tapeLimit);
-        if(result == 1) {
+        if (result == 1) {
             return "Accepted";
         } else if (result == 0) {
             return "Rejected";
-        } else if (result == -1){
+        } else if (result == -1) {
             return "Undefined character and state combination.";
-        } else if (result == - 10){
+        } else if (result == -10) {
             return "Terminated after";
-        } else if (result == -13){
+        } else if (result == -13) {
             return "Tape limit exceeded.";
         } else if (result == 888) {
             return "Input size exceeds tape limit.";
@@ -209,11 +209,11 @@ public class Handler {
      * @see simulator.domain.Simulator#setUpSimulator(java.lang.String, int, int) 
      * @return True if the set up was completed and false if the set up caused an error.
      */
-    public boolean setUpStepByStep(String input, int limit, int tapeLimit){
+    public boolean setUpStepByStep(String input, int limit, int tapeLimit) {
         try {
             sakke.setUpSimulator(input, limit, tapeLimit);
             return true;
-        } catch(OutOfMemoryError e){
+        } catch (OutOfMemoryError e) {
             return false;
         }
     }
@@ -223,7 +223,7 @@ public class Handler {
      * @see simulator.domain.Simulator#simulateStep() 
      * @return String representation of the tape after simulation of this step.
      */
-    public String simulateStep(){
+    public String simulateStep() {
         return sakke.simulateStep();
     }
 }
