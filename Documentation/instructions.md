@@ -21,7 +21,8 @@ In the main window, you can see the information of the Turing machine currently 
 * Simulate step-by-step shows you in the simulation area how the simulation advances, one step in a second.
 * Simulate step-by-step (fast) (Not yet ready!)
 
-You can write input in the textfield below the simulation area and then start the simulation by pressing "Start simulation." The result of the simulation will be shown at the bottom of the window.
+You can write input in the textfield below the simulation area and then start the simulation by pressing "Start simulation." The result of the simulation will be shown at the bottom of the window. If the input contains characters not defined in the transition table, the simulation will halt.
 Tape size limit limits the maximum size of the tape. Step limit sets the amount of steps after which the simulator will automatically halt the simulation. You can adjust these values, but for most inputs the default values should be fine. Tape size limit cannot go under a certain value and if too small it will be adjusted to the minimum accepted value by the simulator.
-
+## Example Turing machines
+I will put some here!
 That's all for now, I will update the instructions as soon as possible!
