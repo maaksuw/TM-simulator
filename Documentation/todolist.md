@@ -16,6 +16,6 @@
 - [ ] Make input from file possible
 - [ ] Add more choices to creation to make it easier to create a table by hand
 ## Miscellaenous
-- [ ] Remove source.txt
-- [ ] Figure how to make JUnit-test for Dao classes
+- [x] Remove source.txt
+- [x] Figure how to make JUnit-test for Dao classes
 - [ ] Make sure the program doesn't fail from any undesired input
