@@ -10,6 +10,7 @@ The purpose of the software is to simulate a turing machine. The program constru
 [**Record of working hours**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/recordofworkinghours.md)
 ## Releases
 [Week 6](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week6)
+
 [Week 5](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week5)
 ## Command Line commands
 Runs the program from the command line, if you have cloned the project.
