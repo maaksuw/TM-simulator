@@ -18,20 +18,18 @@ Right-clicking a project on the list opens a menu with options to rename, close 
 
 ## Core features
 - [x] The user is able to create a new turing machine
-  - [x] A turing machine needs a unique name and a transition table
-  - [x] A description is optional
+  - [x] A turing machine needs a unique name, a description and a transition table
   - [x] A new project is saved as a file
-- [ ] The user is able to simulate a turing machine
-  - [ ] The user can select a turing machine they wish to simulate from a list
-  - [ ] Before simulation the user has to give the program an input
-  - [ ] The input must only contain characters defined in the transition table of the selected turing machine
-- [ ] The program visualizes the simulation step-by-step
-  - [ ] The program shows a part of the tape and the current position and state
-  - [ ] The position of the head and the state are updated as the machine reads the input
+- [x] The user is able to simulate a turing machine
+  - [x] The user can select a turing machine they wish to simulate
+  - [x] Before simulation the user has to give the program an input
+  - [x] The input must only contain characters defined in the transition table of the selected turing machine
+- [x] The program visualizes the simulation step-by-step
+  - [x] The program shows a part of the tape and the current position (and state, not yet)
+  - [x] The position of the head (and the state) are updated as the machine reads the input
 - [x] The user is able to exit the program
 
 ## Additional features
-- [ ] The user is able to close and delete projects from the list
-- [ ] The user has more options when constructing a turing machine, for example: adding an accept state, a reject state, options for no writing and erasure
-- [ ] The user can create a new project by giving the program a file where the transition table is described in a right format
+- [ ] Different options to simulation (at once, by hand, slow, fast)
 - [ ] The user can give a file as an input
+- [ ] The user can create a new project by giving the program a file in the right format
