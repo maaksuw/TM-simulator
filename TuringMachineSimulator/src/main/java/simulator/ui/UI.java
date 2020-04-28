@@ -26,9 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import simulator.dao.FileManagerDao;
 import simulator.dao.FileTMDao;
-import simulator.dao.ManagerDao;
 import simulator.dao.TMDao;
 import simulator.domain.Handler;
 
@@ -42,9 +40,8 @@ public class UI extends Application {
 
     @Override
     public void init() {
-        ManagerDao mao = new FileManagerDao();
-        TMDao tmdao = new FileTMDao(mao.getProjectFolder());
-        handle = new Handler(mao, tmdao);
+        TMDao tmdao = new FileTMDao();
+        handle = new Handler(tmdao);
     }
     
     @Override
@@ -211,6 +208,7 @@ public class UI extends Application {
                             + "\nwhere 'a' is the character, 'R' is the movement and 'qar' is the state.");
         inst.setWrapText(true);
         inst.setMaxWidth(500);
+        inst.setPrefHeight(500);
         //transition table
         GridPane table = new GridPane();
         table.setGridLinesVisible(true);

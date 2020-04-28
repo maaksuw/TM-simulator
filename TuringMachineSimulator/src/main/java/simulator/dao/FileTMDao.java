@@ -18,8 +18,22 @@ public class FileTMDao implements TMDao {
     private Scanner reader;
     
     
+    public FileTMDao() {
+        File file = new File("TMSimulator");
+        file.mkdir();
+        folder = System.getProperty("user.dir") + File.separator + "TMSimulator";
+    }
+    
     public FileTMDao(String f) {
         folder = f;
+    }
+    /**
+     * Returns the absolute path of the project folder.
+     * @return Absolute path of the project folder. 
+     */
+    @Override
+    public String getProjectFolder() {
+        return folder;
     }
     
     /**
@@ -47,6 +61,34 @@ public class FileTMDao implements TMDao {
         } catch (IOException ex) {
             System.out.println("create: " + ex.getMessage());
             return false;
+        }
+    }
+    
+    /**
+     * Returns the created Turing machine file.
+     * Method is currently only used in testing but it could be useful later on.
+     * @param tm
+     * @return 
+     */
+    @Override
+    public File createFile(TuringMachine tm) {
+        File f = new File(folder + File.separator + tm.getName() + ".txt");
+        try {
+            if (f.createNewFile()) {
+                FileWriter writer = new FileWriter(f);
+                writer.write(tm.getName() + ":\n");
+                writer.write(tm.getDescription() + ":\n");
+                writer.write(tm.toStringAlphabet() + ":\n");
+                writer.write(tm.toStringStates() + ":\n");
+                writer.write(tm.toStringTable());
+                writer.close();
+                return f;
+            } else {
+                return null;
+            }
+        } catch (IOException ex) {
+            System.out.println("create: " + ex.getMessage());
+            return null;
         }
     }
     

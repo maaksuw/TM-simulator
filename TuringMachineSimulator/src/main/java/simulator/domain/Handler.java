@@ -3,7 +3,6 @@ package simulator.domain;
 
 import java.io.File;
 import java.io.IOException;
-import simulator.dao.ManagerDao;
 import simulator.dao.TMDao;
 
 /**
@@ -14,24 +13,22 @@ import simulator.dao.TMDao;
 
 public class Handler {
     
-    private ManagerDao mao;
     private TMDao tmdao;
     private Simulator sakke;
     private TuringMachine currentTM;
     
-    public Handler(ManagerDao mao, TMDao tmdao) {
-        this.mao = mao;
+    public Handler(TMDao tmdao) {
         this.tmdao = tmdao;
         sakke = new Simulator();
     }
     
     /**
      * Returns the absolute path of the current program folder.
-     * @see simulator.dao.ManagerDao#getProjectFolder() 
+     * @see simulator.dao.TMDao#getProjectFolder() 
      * @return Absolute path of the current program folder where the Turing machine files are located.
      */
     public String getProjectFolder() {
-        return mao.getProjectFolder();
+        return tmdao.getProjectFolder();
     }
     
     /**
