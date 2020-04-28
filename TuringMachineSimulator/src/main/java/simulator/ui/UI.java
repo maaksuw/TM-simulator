@@ -151,7 +151,7 @@ public class UI extends Application {
                     return;
                 }
                 String step = handle.simulateStep();
-                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.")){
+                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.") || step.equals("Bad input for this machine.")){
                     result.setText(step);
                     this.stop();
                     eka = true;

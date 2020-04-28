@@ -18,10 +18,10 @@ public class Simulator {
             
     public Simulator() {
         this.state = 0;
-        length = 34;
-        limit = 0;
-        counter = 0;
-        tapeLimit = 3000000;
+        this.length = 34;
+        this.limit = 0;
+        this.counter = 0;
+        this.tapeLimit = 3000000;
     }
     
     /**
@@ -41,10 +41,28 @@ public class Simulator {
     }
     
     /**
+     * Returns the tape length.
+     * A helper method for testing.
+     * @return Tape length.
+     */
+    public int getTapeLength(){
+        return tape.length;
+    }
+    
+    /**
+     * Returns the head position.
+     * A helper method for testing.
+     * @return Integer indicating the heads position on the tape.
+     */
+    public int getHeadPosition(){
+        return head;
+    }
+    
+    /**
      * Sets the Turing machine as the current Turing machine of the simulator.
      * @param tm Turing machine to be attached to the simulator.
      */
-    public void setTm(TuringMachine tm) {
+    public void setTM(TuringMachine tm) {
         this.tm = tm;
         this.state = 0;
     }
@@ -98,14 +116,8 @@ public class Simulator {
         if(counter >= limit) {
             return "Terminated after";
         }
-        try {
-            if (head - length < 0) {
-                growTape(-1);
-            } else if (head + length > (tape.length - 1)) {
-                growTape(1);
-            }
-        } catch(OutOfMemoryError e) {
-            return "Tape limit exceeded.";
+        if(tm.searchCharacterIndex(tape[head]) == -1){
+            return "Bad input for this machine.";
         }
         Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
         if (i == null || i.getState().equals("")) {
@@ -121,9 +133,23 @@ public class Simulator {
         char a = i.getMovement();
         if (a == 'L') {
             head--;
+            try {
+                if (head - length < 0) {
+                    growTape(-1);
+                }
+            } catch(OutOfMemoryError e) {
+                return "Tape limit exceeded.";
+            }
         }
         if (a == 'R') {
             head++;
+            try {
+                if (head + length > (tape.length - 1)) {
+                    growTape(1);
+                }
+            } catch(OutOfMemoryError e) {
+                return "Tape limit exceeded.";
+            }
         }
         state = tm.searchStateIndex(i.getState());
         counter++;
@@ -154,16 +180,9 @@ public class Simulator {
             if(counter >= limit){
                 return -10;
             }
-            try {
-                if (head - length < 0) {
-                    growTape(-1);
-                } else if (head + length > tape.length - 1) {
-                    growTape(1);
-                }
-            } catch(OutOfMemoryError e){
-                return -13;
+            if(tm.searchCharacterIndex(tape[head]) == -1){
+                return 666;
             }
-            System.out.println("state: " + state + " characterIndex: " + tm.searchCharacterIndex(tape[head]));
             Instruction i = table[state][tm.searchCharacterIndex(tape[head])];
             if (i == null || i.getState().equals("")) {
                 return -1;
@@ -178,9 +197,23 @@ public class Simulator {
             char a = i.getMovement();
             if (a == 'L') {
                 head--;
+                try {
+                    if (head - length < 0) {
+                        growTape(-1);
+                    }
+                } catch(OutOfMemoryError e){
+                    return -13;
+                }
             }
             if (a == 'R') {
                 head++;
+                try {
+                    if (head + length > tape.length - 1) {
+                        growTape(1);
+                    }
+                } catch(OutOfMemoryError e){
+                    return -13;
+                } 
             }
             state = tm.searchStateIndex(i.getState());
             counter++;
@@ -197,12 +230,11 @@ public class Simulator {
         if(n >= tapeLimit){
             throw new OutOfMemoryError();
         }
+        head = length;
         if(n <= length+1) {
-            head = length;
             tape = new char[(length * 2) + 1];
         } else {
-            head = n-1;
-            tape = new char[n + (n-1)];
+            tape = new char[n + length];
         }
         for (int i = 0; i < tape.length; i++) {
             tape[i] = '_';
@@ -251,7 +283,7 @@ public class Simulator {
         StringBuilder situation = new StringBuilder();
         int alku = head - length;
         int loppu = head + length;
-        for(int j = alku; j < loppu; j++){
+        for(int j = alku; j <= loppu; j++){
                 if(j == head){
                     situation.append("[").append(tape[j]).append("]");
                 } else if(j == (head -1)) {

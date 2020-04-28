@@ -52,7 +52,7 @@ public class Handler {
         try {
             if(tmdao.create(tm)){
                 currentTM = tm;
-                sakke.setTm(tm);
+                sakke.setTM(tm);
                 return true;
             }
             return false;
@@ -109,7 +109,7 @@ public class Handler {
         String[][] table = tmdao.readTable(states.length, alphabet.length);
         Instruction[][] transitionTable = createInstructionTable(table);
         TuringMachine tm = new TuringMachine(name, description, transitionTable, alphabet, states);
-        sakke.setTm(tm);
+        sakke.setTM(tm);
         currentTM = tm;
     }
     
@@ -194,8 +194,10 @@ public class Handler {
             return "Terminated after";
         } else if (result == -13){
             return "Tape limit exceeded.";
-        } else {
+        } else if (result == 888) {
             return "Input size exceeds tape limit.";
+        } else {
+            return "Bad input for this machine.";
         }
     }
     

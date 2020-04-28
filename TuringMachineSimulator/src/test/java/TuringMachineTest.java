@@ -94,10 +94,21 @@ public class TuringMachineTest {
     }
     
     @Test
-    public void searchCharacterThrowsErrorIfIndexOutOfBounds() {
+    public void searchCharacterThrowsErrorIfIndexOutOfBoundsPositive() {
         boolean b = false;
         try {
             tm.searchCharacter(15);
+        } catch(Exception e) {
+            b = true;
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void searchCharacterThrowsErrorIfIndexOutOfBoundsNegative() {
+        boolean b = false;
+        try {
+            tm.searchCharacter(-15);
         } catch(Exception e) {
             b = true;
         }
@@ -120,10 +131,21 @@ public class TuringMachineTest {
     }
     
     @Test
-    public void searchStateThrowsErrorIfIndexOutOfBounds() {
+    public void searchStateThrowsErrorIfIndexOutOfBoundsPositive() {
         boolean b = false;
         try {
             tm.searchState(100);
+        } catch(Exception e) {
+            b = true;
+        }
+        assertTrue(b);
+    }
+    
+    @Test
+    public void searchStateThrowsErrorIfIndexOutOfBoundsNegative() {
+        boolean b = false;
+        try {
+            tm.searchState(-100);
         } catch(Exception e) {
             b = true;
         }
@@ -142,6 +164,6 @@ public class TuringMachineTest {
     
     @Test
     public void toStringTable() {
-        assertEquals(tm.toStringTable(),"(a, R, qar) (qa)\n(b, R, qb) (b, L, qar)\n(a, L, qb) (qr)");
+        assertEquals(tm.toStringTable(),"a R qar; qa\nb R qb; b L qar\na L qb; qr");
     }
 }
