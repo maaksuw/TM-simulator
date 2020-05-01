@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -26,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import simulator.dao.FileTMDao;
 import simulator.dao.TMDao;
 import simulator.domain.Handler;
@@ -48,7 +50,7 @@ public class UI extends Application {
     public void start(Stage stage) {
         stage.setTitle("Turing Machine Simulator");
         stage.setMaxWidth(1100);
-        stage.setMaxHeight(400);
+        stage.setMaxHeight(450);
         Stage creationWindow = new Stage();
         creationWindow.setMaxWidth(1050);
         creationWindow.setMaxHeight(650);
@@ -65,11 +67,41 @@ public class UI extends Application {
         manually.setToggleGroup(choises);
         RadioButton stepbystep = new RadioButton("Simulate step-by-step");
         stepbystep.setToggleGroup(choises);
+        VBox fast = new VBox();
+        fast.setSpacing(10);
         RadioButton fastsbs = new RadioButton("Simulate step-by-step (fast)");
         fastsbs.setToggleGroup(choises);
+        Slider howFast = new Slider(1,3,1);
+        howFast.setShowTickMarks(true);
+        howFast.setShowTickLabels(true);
+        howFast.setSnapToTicks(true);
+        howFast.setMajorTickUnit(1);
+        howFast.setMinorTickCount(0);
+        howFast.setLabelFormatter(new StringConverter<Double>(){
+            
+            @Override
+            public String toString(Double d){
+                if(d < 2) return "Fast";
+                if(d < 3) return "Faster";
+                else {
+                    return "Super Saiyan";
+                }
+            }
+
+            @Override
+            public Double fromString(String string) {
+                if(string.equals("Fast")) return 1d;
+                if(string.equals("Faster")) return 2d;
+                else {
+                    return 3d;
+                }
+            }
+            
+        });
+        fast.getChildren().addAll(fastsbs, howFast);
         HBox menu = new HBox();
-        menu.getChildren().addAll(neww, open, atonce, manually, stepbystep, fastsbs);
-        menu.setPadding(new Insets(10,10,10,10));
+        menu.getChildren().addAll(neww, open, atonce, manually, stepbystep, fast);
+        menu.setPadding(new Insets(10,10,2,10));
         menu.setSpacing(10);
         //place for output, input and simulate-button at the middle
         VBox simulationArea = new VBox();
@@ -84,7 +116,11 @@ public class UI extends Application {
         drawer.setFill(Color.WHITE);
         drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         drawer.setFill(Color.BLACK);
-        drawer.setFont(new Font("Arial",15));
+        drawer.setFont(new Font("Courier",15));
+        StringBuilder tape = new StringBuilder();
+        for(int i = 0; i < 69; i++){
+            tape.append("_ ");
+        }
         
         HBox inputLine = new HBox();
         inputLine.setSpacing(8);
@@ -105,6 +141,7 @@ public class UI extends Application {
         resultLine.setAlignment(Pos.CENTER_RIGHT);
         resultLine.setSpacing(10);
         Button start = new Button("Start simulation");
+        Button simulateStep = new Button("Simulate step");
         Label lresult = new Label("Result: ");
         Label result = new Label("");
         resultLine.getChildren().addAll(lresult,result,start);
@@ -133,17 +170,61 @@ public class UI extends Application {
         
         AnimationTimer loop = new AnimationTimer(){
             
-            long edellinen = 0;
+            long previous = 0;
+            boolean first = true;
+            
+            @Override
+            public void handle(long now) {
+                if((now - previous) < 1e9){
+                    return;
+                }
+                if(first){
+                    drawer.strokeText(handle.getTape(), 0, 110);
+                    this.previous = now;
+                    first = false;
+                    return;
+                }
+                String step = handle.simulateStep();
+                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.") || step.equals("Bad input for this machine.")){
+                    result.setText(step);
+                    this.stop();
+                    first = true;
+                    return;
+                } else if (step.equals("Terminated after")){
+                    result.setText(step + " " + stepLimit.getText() + " steps.");
+                    this.stop();
+                    first = true;
+                    return;
+                }
+                drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.WHITE);
+                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.BLACK);
+                drawer.strokeText(step, 0, 110);
+                this.previous = now; 
+            }
+            
+        };
+        
+        AnimationTimerExtra loopF = new AnimationTimerExtra() {
+            
+            long previous = 0;
+            long interval = 0;
             boolean eka = true;
             
             @Override
-            public void handle(long nykyhetki){
-                if((nykyhetki - edellinen) < 1e9){
+            public void setInterval(long interval) {
+                this.interval = interval * 1000000;
+            }
+            
+            @Override
+            public void handle(long now) {
+                if((now - previous) < interval){
                     return;
                 }
                 if(eka){
                     drawer.strokeText(handle.getTape(), 0, 110);
-                    this.edellinen = nykyhetki;
+                    this.previous = now;
                     eka = false;
                     return;
                 }
@@ -164,12 +245,12 @@ public class UI extends Application {
                 drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
                 drawer.setFill(Color.BLACK);
                 drawer.strokeText(step, 0, 110);
-                this.edellinen = nykyhetki; 
+                this.previous = now; 
             }
             
         };
         
-        Scene main = new Scene(layout, 1100, 400);
+        Scene main = new Scene(layout, 1100, 450);
         
         //creates elements and sets the creation scene
         //name-row
@@ -287,10 +368,12 @@ public class UI extends Application {
                 tapeLimit = Math.max(tapeLimit, (140 + inputt.length()));
             }
             tapeSize.setText("" + tapeLimit);
+            drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.setFill(Color.WHITE);
+            drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawer.setFill(Color.BLACK);
+            
             if(atonce.isSelected()){
-                drawer.setFill(Color.WHITE);
-                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawer.setFill(Color.BLACK);
                 String resultt = handle.simulate(inputt, limit, tapeLimit);
                 if(resultt.equals("Terminated after")){
                     result.setText(resultt + " " + limit + " steps.");
@@ -299,16 +382,55 @@ public class UI extends Application {
                 }
             }
             if(stepbystep.isSelected()){
-                drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawer.setFill(Color.WHITE);
-                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawer.setFill(Color.BLACK);
                 if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
                     loop.start();
                 } else {
                     result.setText("Input size exceeds tape limit.");
                 }
             }
+            if(manually.isSelected()){
+                if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
+                    drawer.strokeText(handle.getTape(), 0, 110);
+                    resultLine.getChildren().add(simulateStep);
+                } else {
+                    result.setText("Input size exceeds tape limit.");
+                }
+            }
+            if(fastsbs.isSelected()){
+                if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
+                    int level = (int) howFast.getValue();
+                    if(level == 1){
+                        level = 333;
+                    } else if (level == 2){
+                        level = 100;
+                    } else {
+                        level = 20;
+                    }
+                    loopF.setInterval(level);
+                    loopF.start();
+                } else {
+                    result.setText("Input size exceeds tape limit.");
+                }
+            }
+        });
+        
+        //"Simulate step" -button simulates a step
+        simulateStep.setOnAction((event) -> {
+            String step = handle.simulateStep();
+                if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.") || step.equals("Bad input for this machine.")){
+                    result.setText(step);
+                    resultLine.getChildren().remove(simulateStep);
+                    return;
+                } else if (step.equals("Terminated after")){
+                    result.setText(step + " " + stepLimit.getText() + " steps.");
+                    resultLine.getChildren().remove(simulateStep);
+                    return;
+                }
+                drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.WHITE);
+                drawer.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                drawer.setFill(Color.BLACK);
+                drawer.strokeText(step, 0, 110);
         });
         
         //"Create"-button: moves to the creation scene
