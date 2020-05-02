@@ -15,6 +15,8 @@ Date | Hours | Comments
 22.4.2020| 8 h |Wrote tests for classes TuringMachine and Simulator. Prepared the first release and updated documentation.
 25.4.2020| 6 h |Continued creating the main window and wrote code for setting up the simulator.
 26.4.2020| 6 h |Created first primitive version of visualization. It only works for turing machines that halt though!
-27.4.2020| 10 h|Made sure the simulator halts and limited memory usage. Bug fixing and wrote javadocs for all classes and methods and continued testing.
-28.4.2020| 8 h|Continued testing, refactored the program, fixed more bugs and prepared a new release.
-Total| 89 h
+27.4.2020| 10 h |Made sure the simulator halts and limited memory usage. Bug fixing and wrote javadocs for all classes and methods and continued testing.
+28.4.2020| 8 h |Continued testing, refactored the program, fixed more bugs and prepared a new release.
+1.5.2020| 4 h |Enabled manual and fast simulation.
+2.5.2020| 4 h |Bettered the simulator, made many small improvements.
+Total| 97 h
