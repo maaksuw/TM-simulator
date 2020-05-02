@@ -13,10 +13,9 @@ The purpose of the software is to simulate a turing machine. The program constru
 
 [Week 5](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week5)
 ## Known issues
-* Simulating without a Turing machine causes an error.
 * Entering tape size limit or step limit with spaces between numbers causes an error.
 
-How ever neither of these seem to cause the program to fail. I will work on fixing these issues!
+However this doesn't seem to cause the program to fail. I will work on fixing the issue!
 ## Command Line commands
 All commands should be run from the folder that contains pom.xml file.
 
