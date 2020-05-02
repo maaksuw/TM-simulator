@@ -171,6 +171,14 @@ public class Handler {
     }
     
     /**
+     * Returns the current state of the simulator.
+     * @return Current state name.
+     */
+    public String getState() {
+        return sakke.getState();
+    }
+    
+    /**
      * Simulates the Turing machine currently attached to the simulator.
      * Invokes simulators method simulate().
      * @param input

@@ -9,4 +9,6 @@ public abstract class AnimationTimerExtra extends AnimationTimer {
     
     public abstract void setInterval(long interval);
     
+    public abstract void resetFirst();
+    
 }

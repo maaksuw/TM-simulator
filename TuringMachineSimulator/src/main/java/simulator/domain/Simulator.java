@@ -18,7 +18,7 @@ public class Simulator {
             
     public Simulator() {
         this.state = 0;
-        this.length = 34;
+        this.length = 24;
         this.limit = 0;
         this.counter = 0;
         this.tapeLimit = 3000000;
@@ -28,8 +28,9 @@ public class Simulator {
      * Returns the current state of the simulator.
      * @return State of the simulator
      */
-    public int getState() {
-        return this.state;
+    public String getState() {
+        String stateName = tm.searchState(state);
+        return stateName;
     }
     
     /**
@@ -286,13 +287,7 @@ public class Simulator {
         int alku = head - length;
         int loppu = head + length;
         for (int j = alku; j <= loppu; j++) {
-            if (j == head) {
-                situation.append("[").append(tape[j]).append("]");
-            } else if (j == (head - 1)) {
-                situation.append(tape[j]);
-            } else {
-                situation.append(tape[j]).append(" ");
-            }
+            situation.append(tape[j]).append(" ");
         }
         return situation.toString();
     }
