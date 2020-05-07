@@ -12,10 +12,12 @@ The purpose of the software is to simulate a turing machine. The program constru
 [Week 6](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week6)
 
 [Week 5](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week5)
-## Known issues
-* Entering tape size limit or step limit with spaces between numbers causes an error.
+## Future releases
+Here is a list of improvements and additional features I am planning on including in future releases. I am open to feedback and new ideas on how to further improve the program!
 
-However this doesn't seem to cause the program to fail. I will work on fixing the issue!
+[**Improvements and features to be added**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/todolist.md)
+## Known issues
+If you notice any bugs or errors in the program or find a part of the user interface difficult to use or understand, I kindly ask you to message me so that I can fix the issue. I would appreciate it very much.
 ## Command Line commands
 All commands should be run from the folder that contains pom.xml file.
 
