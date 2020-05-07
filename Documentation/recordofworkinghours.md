@@ -19,4 +19,6 @@ Date | Hours | Comments
 28.4.2020| 8 h |Continued testing, refactored the program, fixed more bugs and prepared a new release.
 1.5.2020| 4 h |Enabled manual and fast simulation.
 2.5.2020| 4 h |Bettered the simulator, made many small improvements.
-Total| 97 h
+7.5.2020| 4 h |Made some improvements to the creation scene.
+8.5.2020| 5 h |Made some final improvements to the UI and the simulator, fixed a few bugs and made sure the program doesn't fail from bad input.
+Total| 106 h
