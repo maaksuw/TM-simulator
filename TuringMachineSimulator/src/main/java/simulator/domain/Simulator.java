@@ -60,6 +60,14 @@ public class Simulator {
     }
     
     /**
+     * Returns the current value of step counter.
+     * @return The amount of steps taken.
+     */
+    public int getCounter() {
+        return counter;
+    }
+    
+    /**
      * Sets the Turing machine as the current Turing machine of the simulator.
      * @param tm Turing machine to be attached to the simulator.
      */
@@ -115,7 +123,12 @@ public class Simulator {
     public String simulateStep() {
         Instruction[][] table = tm.getTable();
         if (counter >= limit) {
-            return "Terminated after";
+            return "Turing machine did not halt after";
+        }
+        if(state == -2){
+            return "Accepted";
+        } else if (state == -3) {
+            return "Rejected";
         }
         if (tm.searchCharacterIndex(tape[head]) == -1) {
             return "Bad input for this machine.";
@@ -125,10 +138,14 @@ public class Simulator {
             return "Undefined character and state combination.";
         }
         if (i.getState().equals("qa")) {
-            return "Accepted";
+            if(i.getCharacter() == 0){
+                return "Accepted";
+            }
         }
         if (i.getState().equals("qr")) {
-            return "Rejected";
+            if(i.getCharacter() == 0){
+                return "Rejected";
+            }
         }
         tape[head] = i.getCharacter();
         char a = i.getMovement();
@@ -181,6 +198,11 @@ public class Simulator {
             if (counter >= limit) {
                 return -10;
             }
+            if(state == -2){
+                return 1;
+            } else if (state == -3) {
+                return 0;
+            }
             if (tm.searchCharacterIndex(tape[head]) == -1) {
                 return 666;
             }
@@ -189,10 +211,14 @@ public class Simulator {
                 return -1;
             }
             if (i.getState().equals("qa")) {
-                return 1;
+                if(i.getCharacter() == 0){
+                    return 1;
+                }
             }
             if (i.getState().equals("qr")) {
-                return 0;
+                if(i.getCharacter() == 0){
+                    return 0;
+                }
             }
             tape[head] = i.getCharacter();
             char a = i.getMovement();

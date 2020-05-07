@@ -179,6 +179,14 @@ public class Handler {
     }
     
     /**
+     * Returns the amount of steps taken.
+     * @return Current amount of steps taken.
+     */
+    public int getSteps() {
+        return sakke.getCounter();
+    }
+    
+    /**
      * Simulates the Turing machine currently attached to the simulator.
      * Invokes simulators method simulate().
      * @param input
@@ -196,7 +204,7 @@ public class Handler {
         } else if (result == -1) {
             return "Undefined character and state combination.";
         } else if (result == -10) {
-            return "Terminated after";
+            return "Turing machine did not halt after";
         } else if (result == -13) {
             return "Tape limit exceeded.";
         } else if (result == 888) {

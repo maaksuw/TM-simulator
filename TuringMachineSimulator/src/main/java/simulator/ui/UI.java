@@ -3,6 +3,7 @@ package simulator.ui;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -61,9 +63,11 @@ public class UI extends Application {
         stage.setTitle("Turing Machine Simulator");
         stage.setMaxWidth(mainWindowWidth);
         stage.setMaxHeight(mainWindowHeight);
+        stage.setResizable(false);
         Stage creationWindow = new Stage();
         creationWindow.setMaxWidth(creationWindowWidth);
         creationWindow.setMaxHeight(creationWindowHeight);
+        creationWindow.setResizable(false);
         
         //creates elements for the main scene
         //menu buttons at the top
@@ -75,13 +79,11 @@ public class UI extends Application {
         atonce.setToggleGroup(choises);
         RadioButton manually = new RadioButton("Simulate manually");
         manually.setToggleGroup(choises);
-        RadioButton stepbystep = new RadioButton("Simulate step-by-step");
-        stepbystep.setToggleGroup(choises);
         VBox fast = new VBox();
         fast.setSpacing(10);
-        RadioButton fastsbs = new RadioButton("Simulate step-by-step (fast)");
+        RadioButton fastsbs = new RadioButton("Simulate automatically");
         fastsbs.setToggleGroup(choises);
-        Slider howFast = new Slider(1,3,1);
+        Slider howFast = new Slider(1,4,1);
         howFast.setShowTickMarks(true);
         howFast.setShowTickLabels(true);
         howFast.setSnapToTicks(true);
@@ -91,28 +93,30 @@ public class UI extends Application {
             
             @Override
             public String toString(Double d){
-                if(d < 2) return "Fast";
-                if(d < 3) return "Faster";
+                if(d < 2) return "Slow";
+                if(d < 3) return "Normal";
+                if(d < 4) return "Fast";
                 else {
-                    return "Super Saiyan";
+                    return "Very fast";
                 }
             }
 
             @Override
             public Double fromString(String string) {
-                if(string.equals("Fast")) return 1d;
-                if(string.equals("Faster")) return 2d;
+                if(string.equals("Slow")) return 1d;
+                if(string.equals("Normal")) return 2d;
+                if(string.equals("Fast")) return 3d;
                 else {
-                    return 3d;
+                    return 4d;
                 }
             }
             
         });
         fast.getChildren().addAll(fastsbs, howFast);
         HBox menu = new HBox();
-        menu.getChildren().addAll(neww, open, atonce, manually, stepbystep, fast);
-        menu.setPadding(new Insets(10,10,2,10));
-        menu.setSpacing(10);
+        menu.getChildren().addAll(neww, open, atonce, manually, fast);
+        menu.setPadding(new Insets(10,10,2,60));
+        menu.setSpacing(15);
         //place for output, input and simulate-button at the middle
         VBox simulationArea = new VBox();
         simulationArea.setAlignment(Pos.CENTER_RIGHT);
@@ -135,6 +139,7 @@ public class UI extends Application {
         }
         drawer.strokeText(tape.toString(), 1, 110);
         drawer.fillPolygon(headX, headY, 3);
+        drawer.strokeText("Steps: ", 25, 30);
         
         HBox inputLine = new HBox();
         inputLine.setSpacing(8);
@@ -151,21 +156,19 @@ public class UI extends Application {
         tapeSize.setText("3000000");
         tapeSize.setPrefWidth(100);
         inputLine.getChildren().addAll(ltapeSize,tapeSize,lstepLimit,stepLimit,linput,input);
-        HBox resultLine = new HBox();
-        resultLine.setAlignment(Pos.CENTER_RIGHT);
-        resultLine.setSpacing(10);
+        HBox startButtons = new HBox();
+        startButtons.setSpacing(10);
+        startButtons.setAlignment(Pos.CENTER_RIGHT);
         Button start = new Button("Start simulation");
+        startButtons.getChildren().add(start);
         start.setDisable(true);
         Button simulateStep = new Button("Simulate step");
         HBox results = new HBox();
+        results.setAlignment(Pos.CENTER_RIGHT);
         Label lresult = new Label("Result: ");
         Label result = new Label("");
         results.getChildren().addAll(lresult,result);
-        result.setMaxWidth(300);
-        result.setMinWidth(300);
-        results.setPadding(new Insets(0,320,0,0));
-        resultLine.getChildren().addAll(results,start);
-        simulationArea.getChildren().addAll(tmname,canvas,inputLine,resultLine);
+        simulationArea.getChildren().addAll(tmname,canvas,inputLine,results,startButtons);
         //name, description, alphabet and states listed on the right
         VBox information = new VBox();
         information.setPadding(new Insets(0,20,20,0));
@@ -213,6 +216,7 @@ public class UI extends Application {
                     drawer.strokeText(handle.getTape(), 1, 110);
                     drawer.strokeText(handle.getState(), 405, 70);
                     drawer.fillPolygon(headX, headY, 3);
+                    drawer.strokeText("Steps: " + handle.getSteps(), 25, 30);
                     this.previous = now;
                     first = false;
                     return;
@@ -223,7 +227,7 @@ public class UI extends Application {
                     this.stop();
                     first = true;
                     return;
-                } else if (step.equals("Terminated after")){
+                } else if (step.equals("Turing machine did not halt after")){
                     result.setText(step + " " + stepLimit.getText() + " steps.");
                     this.stop();
                     first = true;
@@ -238,6 +242,7 @@ public class UI extends Application {
                 drawer.strokeText(step, 1, 110);
                 drawer.strokeText(handle.getState(), 405, 70);
                 drawer.fillPolygon(headX, headY, 3);
+                drawer.strokeText("Steps: " + handle.getSteps(), 25, 30);
                 this.previous = now; 
             }
             
@@ -250,10 +255,6 @@ public class UI extends Application {
         Label lname = new Label("Name: ");
         TextField tfname = new TextField();
         tfname.setMaxWidth(200);
-        Label hox = new Label("");
-        HBox h = new HBox();
-        h.setSpacing(10);
-        h.getChildren().addAll(tfname, hox);
         //description-row
         Label desc = new Label("Description: ");
         TextArea tadesc = new TextArea();
@@ -265,7 +266,7 @@ public class UI extends Application {
         gp.setHgap(10);
         gp.setVgap(10);
         gp.add(lname, 0, 0);
-        gp.add(h, 1, 0);
+        gp.add(tfname, 1, 0);
         gp.add(desc, 0, 1);
         gp.add(tadesc, 1, 1);
         //instructions
@@ -289,17 +290,30 @@ public class UI extends Application {
         ArrayList<TextField> nodes = new ArrayList<>();
         ArrayList<TextField> stateslist = new ArrayList<>();
         ArrayList<TextField> alphablist = new ArrayList<>();
+        TextField blankSymbol = new TextField();
         int rows  = 3;
-        int columns = 3;
+        int columns = 4;
+        char def = 'a';
         for(int i = 1; i < columns; i++){
-            TextField tf1 = new TextField();
-            tf1.setPrefWidth(70);
-            table.add(tf1, i, 0);
-            alphablist.add(tf1);
+            if(i == 1){
+                blankSymbol.setText("_");
+                blankSymbol.setEditable(false);
+                blankSymbol.setPrefWidth(70);
+                table.add(blankSymbol, i, 0);
+                alphablist.add(blankSymbol);
+            } else {
+                TextField tf1 = new TextField();
+                tf1.setPrefWidth(70);
+                tf1.setText(def + "");
+                table.add(tf1, i, 0);
+                alphablist.add(tf1);
+                def++;
+            }
         }
         for(int j = 1; j < rows; j++){
             TextField tf1 = new TextField();
             tf1.setPrefWidth(70);
+            tf1.setText("state" + j);
             table.add(tf1, 0, j);
             stateslist.add(tf1);
         }
@@ -320,15 +334,25 @@ public class UI extends Application {
         Button addRow = new Button("Add Row");
         Button removeColumn = new Button("Remove Column");
         Button removeRow = new Button("Remove Row");
-        Label initialState = new Label("(initial state)"); //add later
+        Label initialState = new Label("(initial state)");
+        initialState.setPadding(new Insets(30,0,0,0));
+        HBox h3 = new HBox();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(table);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollPane.setMaxWidth(368);
+        h3.getChildren().addAll(initialState, scrollPane);
+        h3.setSpacing(10);
         HBox h2 = new HBox();
         h2.setPadding(new Insets(10,10,10,0));
         h2.setSpacing(10);
-        h2.getChildren().addAll(addRow, addColumn, removeRow, removeColumn);
+        h2.getChildren().addAll(addRow, removeRow, addColumn, removeColumn);
         //button-row and error label
         Button finish = new Button("Finish");
         Button cancel = new Button("Cancel");
         Label error = new Label("");
+        error.setTextFill(Color.RED);
         HBox buttons = new HBox();
         buttons.setSpacing(10);
         buttons.getChildren().addAll(finish, cancel);
@@ -340,7 +364,7 @@ public class UI extends Application {
         VBox v2 = new VBox();
         v2.setPadding(new Insets(10,10,10,0));
         v2.setSpacing(10);
-        v2.getChildren().addAll(transitionTable,h2,table);
+        v2.getChildren().addAll(transitionTable,h2,h3);
         HBox overall = new HBox();
         overall.setPadding(new Insets(10,10,10,10));
         overall.setSpacing(10);
@@ -351,8 +375,10 @@ public class UI extends Application {
         //"Start simulation" -button starts the simulation
         start.setOnAction((event) -> {
             result.setText("");
-            int limit = Integer.valueOf(stepLimit.getText().trim());
-            int tapeLimit = Integer.valueOf(tapeSize.getText().trim());
+            String stepLimitInt = stepLimit.getText().trim();
+            String tapeSizeInt = tapeSize.getText().trim();
+            int limit = format(stepLimitInt);
+            int tapeLimit = format(tapeSizeInt);
             String inputt = input.getText().trim();
             int inputSize = inputt.length();
             if(inputSize > inputLimit){
@@ -369,8 +395,8 @@ public class UI extends Application {
             drawer.setFill(Color.LAVENDER);
             drawer.fillRoundRect(401, 93, 18, 24, 5, 5);
             drawer.setFill(Color.BLACK);
-            if(resultLine.getChildren().contains(simulateStep)){
-                resultLine.getChildren().remove(simulateStep);
+            if(startButtons.getChildren().contains(simulateStep)){
+                startButtons.getChildren().remove(simulateStep);
             }
             loopF.stop();
             loopF.resetFirst();
@@ -379,18 +405,11 @@ public class UI extends Application {
                 drawer.strokeText(tape.toString(), 1, 110);
                 drawer.fillPolygon(headX, headY, 3);
                 String resultt = handle.simulate(inputt, limit, tapeLimit);
+                drawer.strokeText("Steps: " + handle.getSteps(), 25, 30);
                 if(resultt.equals("Terminated after")){
                     result.setText(resultt + " " + limit + " steps.");
                 } else {
                     result.setText(resultt);
-                }
-            }
-            if(stepbystep.isSelected()){
-                if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
-                    loopF.setInterval(1000);
-                    loopF.start();
-                } else {
-                    result.setText("Input size exceeds tape limit.");
                 }
             }
             if(manually.isSelected()){
@@ -398,7 +417,8 @@ public class UI extends Application {
                     drawer.strokeText(handle.getTape(), 1, 110);
                     drawer.strokeText(handle.getState(), 405, 70);
                     drawer.fillPolygon(headX, headY, 3);
-                    resultLine.getChildren().add(simulateStep);
+                    drawer.strokeText("Steps: " + handle.getSteps(), 25, 30);
+                    startButtons.getChildren().add(simulateStep);
                 } else {
                     result.setText("Input size exceeds tape limit.");
                 }
@@ -407,11 +427,13 @@ public class UI extends Application {
                 if(handle.setUpStepByStep(inputt, limit, tapeLimit)){
                     int level = (int) howFast.getValue();
                     if(level == 1){
-                        level = 333;
+                        level = 1000;
                     } else if (level == 2){
-                        level = 100;
-                    } else {
+                        level = 200;
+                    } else if (level == 3){
                         level = 20;
+                    } else {
+                        level = 5;
                     }
                     loopF.setInterval(level);
                     loopF.start();
@@ -424,13 +446,14 @@ public class UI extends Application {
         //"Simulate step" -button simulates a step
         simulateStep.setOnAction((event) -> {
             String step = handle.simulateStep();
+            int counter = handle.getSteps();
                 if(step.equals("Accepted") || step.equals("Rejected") || step.equals("Tape limit exceeded.") || step.equals("Undefined character and state combination.") || step.equals("Bad input for this machine.")){
                     result.setText(step);
-                    resultLine.getChildren().remove(simulateStep);
+                    startButtons.getChildren().remove(simulateStep);
                     return;
-                } else if (step.equals("Terminated after")){
+                } else if (step.equals("Turing machine did not halt after")){
                     result.setText(step + " " + stepLimit.getText() + " steps.");
-                    resultLine.getChildren().remove(simulateStep);
+                    startButtons.getChildren().remove(simulateStep);
                     return;
                 }
                 drawer.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -442,12 +465,15 @@ public class UI extends Application {
                 drawer.strokeText(step, 1, 110);
                 drawer.strokeText(handle.getState(), 405, 70);
                 drawer.fillPolygon(headX, headY, 3);
+                drawer.strokeText("Steps: " + counter, 25, 30);
         });
         
         //"Create"-button: moves to the creation scene
         neww.setOnAction((event) -> {
             creationWindow.setTitle("Create a Turing Machine");
             creationWindow.setScene(creation);
+            blankSymbol.setText("_");
+            
             creationWindow.show();
         });
         
@@ -495,6 +521,9 @@ public class UI extends Application {
             }
             int columnCount = table.getColumnCount();
             table.addColumn(columnCount, nodess);
+            if(columnCount >= 5){
+                table.setPadding(new Insets(0,0,17,0));
+            }
         });
         
         //"Remove Row" -button
@@ -522,6 +551,9 @@ public class UI extends Application {
             ObservableList<Node> children = table.getChildren();
             int columnCount = table.getColumnCount();
             if(columnCount <= 2) return;
+            if(columnCount <= 6){
+                table.setPadding(new Insets(0,0,0,0));
+            }
             Node[] nodess = new Node[table.getRowCount()];
             int idx = 0;
             for(Node n: children){
@@ -541,7 +573,7 @@ public class UI extends Application {
             //clears the textfields before returning to main scene
             tfname.clear();
             tadesc.clear();
-            hox.setText("");
+            error.setText("");
             for(Node n: table.getChildren()){
                 if((GridPane.getRowIndex(n) == null || GridPane.getColumnIndex(n) == null) || (GridPane.getRowIndex(n) == 0 && GridPane.getColumnIndex(n) == 0)) continue;
                 TextField t = (TextField) n;
@@ -554,7 +586,68 @@ public class UI extends Application {
         //"Finish"-button: when finished, creates a turing machine defined by the instructions
         finish.setOnAction((event) -> {
             String name = tfname.getText().trim();
+            if(name.isEmpty()){
+                error.setText("Give a name to the Turing machine.");
+                return;
+            }
             String dsc = tadesc.getText().trim();
+            if(dsc.isEmpty()){
+                error.setText("Describe the Turing machine shortly.");
+                return;
+            }
+            boolean[] checkerAlpha = new boolean[130];
+            int alphasize = alphablist.size();
+            char[] alphabet = new char[alphasize];
+            for(int i = 0; i < alphasize; i++){
+                Node n = alphablist.get(i);
+                int column = GridPane.getColumnIndex(n);
+                String character = alphablist.get(i).getText().trim();
+                if(character.length() > 1) {
+                    error.setText("The alphabet must only contain characters.");
+                    return;
+                } else if (character.length() < 1){
+                    error.setText("Please don't leave any empty columns or rows.");
+                    return;
+                } else if (!character.matches("[a-z]|[A-Z]|å|Å|ä|Ä|ö|Ö|_|[0-9]")){
+                    error.setText("Please only use characters a-z, A-Z, å-ö, Å-Ö or numbers in the alphabet.");
+                    return;
+                }
+                char a = character.charAt(0);
+                if(checkerAlpha[a] == false){
+                    checkerAlpha[a] = true;
+                } else {
+                    error.setText("Characters in the alphabet must be defined only once.");
+                    return;
+                }
+                alphabet[column-1] = a;
+            }
+            
+            HashSet<String> checkerBeta = new HashSet<>();
+            int statesize = stateslist.size();
+            String[] states = new String[statesize];
+            for(int i = 0; i < statesize; i++){
+                Node n = stateslist.get(i);
+                int row = GridPane.getRowIndex(n);
+                String text = stateslist.get(i).getText().trim();
+                if(text.isEmpty()){
+                    error.setText("Please don't leave any empty columns or rows.");
+                    return;
+                } else if (!text.matches("([a-z]|[A-Z]|å|Å|ä|Ä|ö|Ö|[0-9]|_)*")){
+                    error.setText("Please only use characters a-z, A-Z, å-ö, Å-Ö, _ or numbers in the state names.");
+                    return;
+                } else if (text.equals("qa") || text.equals("qr")){
+                    error.setText("\"qa\" and \"qr\" are not valid state names.");
+                    return;
+                }
+                if(checkerBeta.contains(text)){
+                    error.setText("State names must be unique.");
+                    return;
+                } else {
+                    checkerBeta.add(text);
+                }
+                states[row-1] = text;
+            }
+            
             int rowCount = table.getRowCount();
             int columnCount = table.getColumnCount();
             String[][] ttable = new String[rowCount - 1][columnCount - 1];
@@ -562,39 +655,54 @@ public class UI extends Application {
                 Node n = nodes.get(i);
                 int row = GridPane.getRowIndex(n);
                 int column = GridPane.getColumnIndex(n);
-                ttable[row-1][column-1] = nodes.get(i).getText().trim();
+                String text = nodes.get(i).getText().trim();
+                System.out.println(text);
+                if(text.isEmpty()){
+                    error.setText("Fill in all of the instructions.");
+                    return;
+                }
+                if(!text.matches("(([a-z]|[A-Z]|å|Å|ä|Ä|ö|Ö|_|[0-9])( L | R | N )([a-z]|[A-Z]|å|Å|ä|Ä|ö|Ö|[0-9]|_)*)|qa|qr")){
+                    error.setText("Instruction \"" + text + "\" is not a valid instruction.");
+                    return;
+                }
+                if(text.length() > 2){
+                    char character = text.charAt(0);
+                    String stateName = text.substring(4, text.length());
+                    if(checkerAlpha[character] == false){
+                        error.setText("Instruction \"" + text + "\" is not a valid instruction.");
+                        return;
+                    } else if (!checkerBeta.contains(stateName) && !stateName.equals("qa") && !stateName.equals("qr")){
+                        error.setText("Instruction \"" + text + "\" is not a valid instruction.");
+                        return;
+                    }
+                }
+                ttable[row-1][column-1] = text;
             }
             
-            int alphasize = alphablist.size();
-            char[] alphabet = new char[alphasize];
-            for(int i = 0; i < alphasize; i++){
-                Node n = alphablist.get(i);
-                int column = GridPane.getColumnIndex(n);
-                if(alphablist.get(i).getText().trim().length() > 1) {} //lets check here the characters are really just one character
-                alphabet[column-1] = alphablist.get(i).getText().trim().charAt(0);
-            }
-            
-            int statesize = stateslist.size();
-            String[] states = new String[statesize];
-            for(int i = 0; i < statesize; i++){
-                Node n = stateslist.get(i);
-                int row = GridPane.getRowIndex(n);
-                states[row-1] = stateslist.get(i).getText().trim();
-            }
-            
+            //creates a Turing machine
             boolean create = handle.createTM(name, dsc, ttable, alphabet, states);
             if(!create){
-                hox.setText("Project with the same name already exists.");
+                error.setText("Project with the same name already exists.");
                 return;
             }
             //clears the textfields before returning to main scene
             tfname.clear();
             tadesc.clear();
-            hox.setText("");
+            error.setText("");
+            char idx = 'a' - 1;
+            int idxx = 1;
             for(Node n: table.getChildren()){
-                if((GridPane.getRowIndex(n) == null || GridPane.getColumnIndex(n) == null) || (GridPane.getRowIndex(n) == 0 && GridPane.getColumnIndex(n) == 0)) continue;
+                if((GridPane.getRowIndex(n) == null && GridPane.getColumnIndex(n) == null)) continue;
                 TextField t = (TextField) n;
-                t.clear();
+                if(GridPane.getRowIndex(n) == null || GridPane.getRowIndex(n) == 0){
+                    t.setText(idx + "");
+                    idx++;
+                } else if (GridPane.getColumnIndex(n) == null || GridPane.getColumnIndex(n) == 0){
+                    t.setText("state" + idxx);
+                    idxx++;
+                } else {
+                    t.clear();
+                }
             }
             tmname.setText(handle.getCurrentTMName());
             currentTMname.setText("Name: " + handle.getCurrentTMName());
@@ -608,6 +716,16 @@ public class UI extends Application {
         //by default shows the main scene
         stage.setScene(main);
         stage.show();
+    }
+    
+    private int format(String s){
+        StringBuilder number = new StringBuilder();
+        for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) != ' '){
+                number.append(s.charAt(i));
+            }
+        }
+        return Integer.valueOf(number.toString());
     }
     
 }

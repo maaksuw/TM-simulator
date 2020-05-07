@@ -101,6 +101,12 @@ public class TuringMachine {
      * @return Index of the state.
      */
     public int searchStateIndex(String s) { //If there is need for more efficient searching later the states should be stored in a hashmap
+        if (s.equals("qa")) {
+           return -2; 
+        }
+        if (s.equals("qr")) {
+           return -3; 
+        }
         for (int i = 0; i < states.length; i++) {
             if (states[i].equals(s)) {
                 return i;
@@ -117,6 +123,8 @@ public class TuringMachine {
      * @return Name of the state.
      */
     public String searchState(int i) {
+        if(i == -2) return "qa";
+        if(i == -3) return "qr";
         if (i >= states.length || i < 0) {
             throw new IllegalArgumentException();
         }
