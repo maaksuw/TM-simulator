@@ -19,3 +19,4 @@
 - [ ] Create a better overall look with CSS
 - [ ] Create a working layout for fullscreen
 - [ ] Code building the UI is ridiculously long. Refactor it.
+- [ ] Example Turing machines come with the program and won't have to be downloaded by the user
