@@ -21,4 +21,5 @@ Date | Hours | Comments
 2.5.2020| 4 h |Bettered the simulator, made many small improvements.
 7.5.2020| 4 h |Made some improvements to the creation scene.
 8.5.2020| 5 h |Made some final improvements to the UI and the simulator, fixed a few bugs and made sure the program doesn't fail from bad input.
-Total| 106 h
+9.5.2020| 6 h |Final bug fixing, read through and styled the code, finished testing and made sure all commands work.
+Total| 112 h
