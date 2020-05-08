@@ -59,7 +59,6 @@ public class FileTMDao implements TMDao {
                 return false;
             }
         } catch (IOException ex) {
-            System.out.println("create: " + ex.getMessage());
             return false;
         }
     }
@@ -87,7 +86,6 @@ public class FileTMDao implements TMDao {
                 return null;
             }
         } catch (IOException ex) {
-            System.out.println("create: " + ex.getMessage());
             return null;
         }
     }
@@ -95,14 +93,11 @@ public class FileTMDao implements TMDao {
     /**
      * Sets the scanner of the class to read from the file given as a parameter.
      * @param f File to be read from.
+     * @throws java.io.FileNotFoundException
      */
     @Override
-    public void prepareReader(File f) {
-        try {
-            reader = new Scanner(f);
-        } catch (FileNotFoundException ex) {
-            System.out.println("File " + f.getAbsolutePath() + " not found.");
-        }
+    public void prepareReader(File f) throws FileNotFoundException {
+        reader = new Scanner(f);
     }
     
     /**
@@ -112,15 +107,11 @@ public class FileTMDao implements TMDao {
      */
     @Override
     public String readName() {
-        String nimi = "";
-        try {
-            if (reader.hasNextLine()) {
-                nimi = reader.nextLine();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        String name = "";
+        if (reader.hasNextLine()) {
+            name = reader.nextLine();
         }
-        return nimi.substring(0, nimi.length() - 1);
+        return name.substring(0, name.length() - 1);
     }
     
     /**
@@ -130,21 +121,17 @@ public class FileTMDao implements TMDao {
      */
     @Override
     public String readDescription() {
-        String desc = "";
-        try {
-            while (reader.hasNextLine()) {
-                String rivi = reader.nextLine();
-                if (rivi.charAt(rivi.length() - 1) == 58) {
-                    desc += rivi;
-                    break;
-                }
-                desc += rivi + "\n";
-                
+        String description = "";
+        while (reader.hasNextLine()) {
+            String row = reader.nextLine();
+            if (row.charAt(row.length() - 1) == 58) {
+                description += row;
+                break;
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            description += row + "\n";
+
         }
-        return desc.substring(0, desc.length() - 1);
+        return description.substring(0, description.length() - 1);
     }
     
     /**
@@ -155,12 +142,8 @@ public class FileTMDao implements TMDao {
     @Override
     public String readAlphabet() {
         String alphabet = "";
-        try {
-            if (reader.hasNextLine()) {
-                alphabet = reader.nextLine();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        if (reader.hasNextLine()) {
+            alphabet = reader.nextLine();
         }
         return alphabet.substring(0, alphabet.length() - 1);
     }
@@ -173,12 +156,8 @@ public class FileTMDao implements TMDao {
     @Override
     public String readStates() {
         String states = "";
-        try {
-            if (reader.hasNextLine()) {
-                states = reader.nextLine();
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        if (reader.hasNextLine()) {
+            states = reader.nextLine();
         }
         return states.substring(0, states.length() - 1);
     }
@@ -187,23 +166,19 @@ public class FileTMDao implements TMDao {
      * Reads the transition table of a Turing machine from the project file.
      * The table is described in the lines following the states.
      * @param states The amount of states.
-     * @param alphabets The size of the alphabet.
+     * @param alphabetSize The size of the alphabet.
      * @return String table describing the instructions of the Turing machine.
      */
     @Override
-    public String[][] readTable(int states, int alphabets) {
-        String[][] table = new String[states][alphabets];
+    public String[][] readTable(int states, int alphabetSize) {
+        String[][] table = new String[states][alphabetSize];
         int row = 0;
-        try {
-            while (reader.hasNextLine()) {
-                String[] bits = reader.nextLine().split("; ");
-                for (int i = 0; i < bits.length; i++) {
-                    table[row][i] = bits[i];
-                }
-                row++;
+        while (reader.hasNextLine()) {
+            String[] bits = reader.nextLine().split("; ");
+            for (int i = 0; i < bits.length; i++) {
+                table[row][i] = bits[i];
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            row++;
         }
         return table;
     }

@@ -12,9 +12,9 @@ public class Simulator {
     private int head;
     private char[] tape;
     final private int length;
-    private int limit;
-    private int counter;
-    private int tapeLimit;
+    private long limit;
+    private long counter;
+    private long tapeLimit;
             
     public Simulator() {
         this.state = 0;
@@ -63,7 +63,7 @@ public class Simulator {
      * Returns the current value of step counter.
      * @return The amount of steps taken.
      */
-    public int getCounter() {
+    public long getCounter() {
         return counter;
     }
     
@@ -80,7 +80,7 @@ public class Simulator {
      * Sets the amount of steps after which the simulator will halt the calculation.
      * @param limit Step limit.
      */
-    private void setLimit(int limit) {
+    private void setLimit(long limit) {
         this.limit = limit;
     }
     
@@ -89,7 +89,7 @@ public class Simulator {
      * If the simulator tries to grow the tape beyond this limit, the calculation will halt.
      * @param tapeLimit Maximum tape length.
      */
-    private void setTapeLimit(int tapeLimit) {
+    private void setTapeLimit(long tapeLimit) {
         this.tapeLimit = tapeLimit;
     }
     
@@ -108,7 +108,7 @@ public class Simulator {
      * @param tapeLimit Maximum tape length
      * @throws OutOfMemoryError 
      */
-    public void setUpSimulator(String input, int limit, int tapeLimit) throws OutOfMemoryError {
+    public void setUpSimulator(String input, long limit, long tapeLimit) throws OutOfMemoryError {
         resetCounter();
         setLimit(limit);
         setTapeLimit(tapeLimit);
@@ -125,7 +125,7 @@ public class Simulator {
         if (counter >= limit) {
             return "Turing machine did not halt after";
         }
-        if(state == -2){
+        if (state == -2) {
             return "Accepted";
         } else if (state == -3) {
             return "Rejected";
@@ -138,36 +138,32 @@ public class Simulator {
             return "Undefined character and state combination.";
         }
         if (i.getState().equals("qa")) {
-            if(i.getCharacter() == 0){
+            if (i.getCharacter() == 0) {
                 return "Accepted";
             }
         }
         if (i.getState().equals("qr")) {
-            if(i.getCharacter() == 0){
+            if (i.getCharacter() == 0) {
                 return "Rejected";
             }
         }
         tape[head] = i.getCharacter();
         char a = i.getMovement();
-        if (a == 'L') {
-            head--;
-            try {
+        try {
+            if (a == 'L') {
+                head--;
                 if (head - length < 0) {
                     growTape(-1);
                 }
-            } catch (OutOfMemoryError e) {
-                return "Tape limit exceeded.";
             }
-        }
-        if (a == 'R') {
-            head++;
-            try {
+            if (a == 'R') {
+                head++;
                 if (head + length > (tape.length - 1)) {
                     growTape(1);
                 }
-            } catch (OutOfMemoryError e) {
-                return "Tape limit exceeded.";
             }
+        } catch (OutOfMemoryError e) {
+            return "Tape limit exceeded.";
         }
         state = tm.searchStateIndex(i.getState());
         counter++;
@@ -187,7 +183,7 @@ public class Simulator {
      * @param tapeLimit Maximum tape length.
      * @return An integer indicating the outcome of the simulation.
      */
-    public int simulate(String input, int limit, int tapeLimit) {
+    public int simulate(String input, long limit, long tapeLimit) {
         try {
             setUpSimulator(input, limit, tapeLimit);
         } catch (OutOfMemoryError e) {
@@ -198,7 +194,7 @@ public class Simulator {
             if (counter >= limit) {
                 return -10;
             }
-            if(state == -2){
+            if (state == -2) {
                 return 1;
             } else if (state == -3) {
                 return 0;
@@ -211,37 +207,34 @@ public class Simulator {
                 return -1;
             }
             if (i.getState().equals("qa")) {
-                if(i.getCharacter() == 0){
+                if (i.getCharacter() == 0) {
                     return 1;
                 }
             }
             if (i.getState().equals("qr")) {
-                if(i.getCharacter() == 0){
+                if (i.getCharacter() == 0) {
                     return 0;
                 }
             }
             tape[head] = i.getCharacter();
             char a = i.getMovement();
-            if (a == 'L') {
-                head--;
-                try {
+            try {
+                if (a == 'L') {
+                    head--;
                     if (head - length < 0) {
                         growTape(-1);
                     }
-                } catch (OutOfMemoryError e) {
-                    return -13;
                 }
-            }
-            if (a == 'R') {
-                head++;
-                try {
+                if (a == 'R') {
+                    head++;
                     if (head + length > (tape.length - 1)) {
                         growTape(1);
                     }
-                } catch (OutOfMemoryError e) {
-                    return -13;
-                } 
-            }
+
+                }
+            } catch (OutOfMemoryError e) {
+                return -13;
+            } 
             state = tm.searchStateIndex(i.getState());
             counter++;
         }
@@ -279,16 +272,16 @@ public class Simulator {
      * Sets the new array as the tape.
      * @param o A negative integer indicating the tape will be lengthened to the left or a non negative integer indicating the tape will be lengthened to the right.
      */
-    private void growTape(int o) {
+    private void growTape(int d) {
         int n = tape.length;
-        if (n + n >= tapeLimit) {
-            throw new OutOfMemoryError();
+        if (n + n >= tapeLimit) { 
+            throw new OutOfMemoryError(); 
         }
         char[] t = new char[n + n];
         for (int i = 0; i < t.length; i++) {
             t[i] = '_';
         }
-        if (o < 0) {
+        if (d < 0) {
             head += n;
             int idx = n;
             for (int i = 0; i < n; i++) {

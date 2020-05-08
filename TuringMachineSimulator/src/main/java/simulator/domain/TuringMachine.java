@@ -8,17 +8,17 @@ package simulator.domain;
 public class TuringMachine {
     
     private String name;
-    private String d;
+    private String description;
     private Instruction[][] table;
-    private char[] alphab;
+    private char[] alphabet;
     private String[] states;
     
-    public TuringMachine(String name, String desc, Instruction[][] t, char[] a, String[] s) {
+    public TuringMachine(String name, String description, Instruction[][] table, char[] alphabet, String[] states) {
         this.name = name;
-        this.d = desc;
-        this.table = t;
-        this.alphab = a;
-        this.states = s;
+        this.description = description;
+        this.table = table;
+        this.alphabet = alphabet;
+        this.states = states;
     }
     
     /**
@@ -34,7 +34,7 @@ public class TuringMachine {
      * @return Description of the Turing machine.
      */
     public String getDescription() {
-        return d;
+        return description;
     }
     
     /**
@@ -50,7 +50,7 @@ public class TuringMachine {
      * @return Alphabet of the Turing machine.
      */
     public char[] getAlphabet() {
-        return alphab;
+        return alphabet;
     }
 
     /**
@@ -70,8 +70,8 @@ public class TuringMachine {
      * @return Index of the character.
      */
     public int searchCharacterIndex(char a) { //If there is need for more efficient searching later the alphabet should be stored in a hashmap
-        for (int i = 0; i < alphab.length; i++) {
-            if (alphab[i] == a) {
+        for (int i = 0; i < alphabet.length; i++) {
+            if (alphabet[i] == a) {
                 return i;
             }
         }
@@ -86,10 +86,10 @@ public class TuringMachine {
      * @return Character corresponding to the index.
      */
     public char searchCharacter(int i) {
-        if (i >= alphab.length || i < 0) {
+        if (i >= alphabet.length || i < 0) {
             throw new IllegalArgumentException();
         }
-        return alphab[i];
+        return alphabet[i];
     }
     
     /**
@@ -102,10 +102,10 @@ public class TuringMachine {
      */
     public int searchStateIndex(String s) { //If there is need for more efficient searching later the states should be stored in a hashmap
         if (s.equals("qa")) {
-           return -2; 
+            return -2; 
         }
         if (s.equals("qr")) {
-           return -3; 
+            return -3; 
         }
         for (int i = 0; i < states.length; i++) {
             if (states[i].equals(s)) {
@@ -123,8 +123,12 @@ public class TuringMachine {
      * @return Name of the state.
      */
     public String searchState(int i) {
-        if(i == -2) return "qa";
-        if(i == -3) return "qr";
+        if (i == -2) {
+            return "qa";
+        }
+        if (i == -3) {
+            return "qr";
+        }
         if (i >= states.length || i < 0) {
             throw new IllegalArgumentException();
         }
@@ -138,9 +142,9 @@ public class TuringMachine {
      */
     public String toStringAlphabet() {
         String s = "";
-        for (int i = 0; i < alphab.length; i++) {
-            s += alphab[i];
-            if (i != alphab.length - 1) {
+        for (int i = 0; i < alphabet.length; i++) {
+            s += alphabet[i];
+            if (i != alphabet.length - 1) {
                 s += " ";
             }
         }
@@ -170,18 +174,18 @@ public class TuringMachine {
      * @return String representation of the transition table. 
      */
     public String toStringTable() {
-        String s = "";
+        String ttable = "";
         for (int i = 0; i < table.length; i++) {
             for (int j = 0; j < table[i].length; j++) {
-                s += table[i][j].toString();
+                ttable += table[i][j].toString();
                 if (j != table[i].length - 1) {
-                    s += "; ";
+                    ttable += "; ";
                 }
             }
             if (i != table.length - 1) {
-                s += "\n";
+                ttable += "\n";
             }
         }
-        return s;
+        return ttable;
     }
 }

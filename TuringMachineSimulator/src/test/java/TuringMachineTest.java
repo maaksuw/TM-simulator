@@ -14,14 +14,14 @@ public class TuringMachineTest {
     public void setUp() {
         char[] alphabet = new char[]{'a','b'};
         String[] states = new String[]{"q0","qar","qb"};
-        Instruction[][] inst = new Instruction[3][2];
-        inst[0][0] = new Instruction('a','R',"qar");
-        inst[0][1] = new Instruction("qa");
-        inst[1][0] = new Instruction('b','R',"qb");
-        inst[1][1] = new Instruction('b','L',"qar");
-        inst[2][0] = new Instruction('a','L',"qb");
-        inst[2][1] = new Instruction("qr");
-        tm = new TuringMachine("name", "description", inst, alphabet, states);
+        Instruction[][] instructions = new Instruction[3][2];
+        instructions[0][0] = new Instruction('a','R',"qar");
+        instructions[0][1] = new Instruction("qa");
+        instructions[1][0] = new Instruction('b','R',"qb");
+        instructions[1][1] = new Instruction('b','L',"qar");
+        instructions[2][0] = new Instruction('a','L',"qb");
+        instructions[2][1] = new Instruction("qr");
+        tm = new TuringMachine("name", "description", instructions, alphabet, states);
     }
     
     @Test

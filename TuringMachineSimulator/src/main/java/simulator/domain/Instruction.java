@@ -8,20 +8,20 @@ package simulator.domain;
 
 public class Instruction {
     
-    private char c;
-    private char m;
-    private String s;
+    private char character;
+    private char movement;
+    private String state;
     
     public Instruction(char character, char movement, String state) {
-        c = character;
-        m = movement;
-        s = state;
+        this.character = character;
+        this.movement = movement;
+        this.state = state;
     }
     
     public Instruction(String state) {
-        c = 0;
-        m = 0;
-        s = state;
+        character = 0;
+        movement = 0;
+        this.state = state;
     }
 
     /**
@@ -29,7 +29,7 @@ public class Instruction {
      * @return Character.
      */
     public char getCharacter() {
-        return c;
+        return character;
     }
     
     /**
@@ -37,7 +37,7 @@ public class Instruction {
      * @return A character representing a movement; L, R or N.
      */
     public char getMovement() {
-        return m;
+        return movement;
     }
     
     /**
@@ -45,7 +45,7 @@ public class Instruction {
      * @return State name.
      */
     public String getState() {
-        return s;
+        return state;
     }
     
     /**
@@ -76,10 +76,10 @@ public class Instruction {
      */
     @Override
     public String toString() {
-        if (c == 0 && m == 0) {
-            return s;
+        if (character == 0 && movement == 0) {
+            return state;
         }
-        return c + " " + m + " " + s;
+        return character + " " + movement + " " + state;
     }
     
 }
