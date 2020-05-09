@@ -4,9 +4,6 @@
 The purpose of the software is to simulate a turing machine. The program constructs a Turing machine based on the users instructions, receives an input, simulates accordingly and presents the outcome with the given input. The idea is to make it easy for the user to see what the constructed turing machine does step by step with the given input and to provide an fun way to experiment with different implementations.
 
 ## UI
-![Draft of the user interface](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/UIdraft.jpg)
-*The draft needs to be updated. Coming soon.*
-
 The main windown has three components: A list of menu buttons and slides at the top, the simulation window and a place for input in the middle, and information about the selected project on the right. If no project is selected the colum on the right will be empty. At the upper right corner there is an exit button that closes the program.
 
 Clicking "Create" opens a second window, where the user can create a project by giving the turing machine a name and a description. Below these are instructions on how to fill in the necessary information for the transition table.
