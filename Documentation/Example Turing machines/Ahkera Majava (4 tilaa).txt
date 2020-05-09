@@ -1,0 +1,8 @@
+Ahkera Majava (4 tilaa):
+Kirjoittaa mahdollisimman monta a:ta nauhalle ja pysähtyy. Tässä ahkerassa majavassa on 4 tilaa. Pysähtyy 107 askeleen jälkeen. Anna syötteenä tyhjä merkkijono.:
+_ a:
+A B C D:
+a R B; a L B
+a L A; _ L C
+a R qa; a L D
+a R D; _ R A

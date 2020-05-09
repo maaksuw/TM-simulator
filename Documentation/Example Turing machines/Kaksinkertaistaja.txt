@@ -1,0 +1,9 @@
+Kaksinkertaistaja:
+Kirjoittaa syötteen kaksinkertaisena ja pysähtyy. Syöte n ykköstä, tuloste 2*n ykköstä.:
+_ 1 2:
+A go bc fin bc2:
+qa; 2 R go; qr
+2 L bc; 1 R go; 2 R go
+_ R fin; 1 L bc2; 2 L bc
+qa; qr; 1 R fin
+qr; 1 L bc2; 2 R A

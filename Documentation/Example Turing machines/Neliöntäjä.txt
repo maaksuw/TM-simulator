@@ -1,0 +1,13 @@
+Neliöntäjä:
+Neliöntäjä neliöntää. Syöte n ykköstä. Tuloste n^2 ykköstä.:
+_ 1 2 3 4 5:
+AA A go bc cl ch bc2 fin1 fin2:
+qa; 4 R go; qr; 4 R go; qr; 5 L cl
+qa; 2 R go; qr; 4 R go; qr; 5 L cl
+5 L bc; 1 R go; 2 R go; 3 R go; 4 R go; 5 R go
+qr; 1 L bc; 2 R A; 3 L bc; 4 R A; 5 L bc
+_ R ch; qr; 1 L cl; qr; 3 L cl; qr
+qr; 3 L bc2; qr; 3 R ch; qr; 5 L fin1
+_ R A; 1 L bc2; qr; 3 L bc2; qr; qr
+_ R fin2; 1 L fin1; 2 L fin1; 3 L fin1; 4 L fin1; 5 L fin1
+qa; _ R fin2; _ R fin2; _ R fin2; _ R fin2; 1 R fin2

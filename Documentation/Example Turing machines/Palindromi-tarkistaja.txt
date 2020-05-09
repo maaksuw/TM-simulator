@@ -1,0 +1,11 @@
+Palindromi-tarkistaja:
+Tarkistaa onko syöte palindromi.:
+a b _:
+qA qar qbr qCa qCb qL qB:
+_ R qar; _ R qbr; qa
+a R qar; b R qar; _ L qCa
+a R qbr; b R qbr; _ L qCb
+_ L qL; qr; qa
+qr; _ L qL; qa
+a L qB; b L qB; qa
+a L qB; b L qB; _ R qA

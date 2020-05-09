@@ -1,0 +1,9 @@
+Ahkera Majava -ehdokas (5 tilaa):
+Kirjoittaa mahdollisimman monta ykköstä nauhalle ja pysähtyy. Tässä ahkerassa majavassa on 5 tilaa. Pysähtyy 47 176 870 askeleen jälkeen. Anna syötteenä tyhjä merkkijono:
+_ 1:
+A B C D E:
+1 R B; 1 L C
+1 R C; 1 R B
+1 R D; _ L E
+1 L A; 1 L D
+1 R qa; _ L A
