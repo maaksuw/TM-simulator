@@ -1,11 +1,11 @@
 # Architecture
 The program has three main packages: simulator.ui, simulator.domain and simulator.dao. The packages follow the structure depicted in the graph below.
 
-**Package structure graph here.**
+![Package structure graph here](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/packagestructurediagram.jpg)
 
 Simulator.ui contains the classes responsible of building the user interface. simulator.domain has the code responsible for actual application logic and simulator.dao contains the classes reading and writing to files.
 ## UI
-simulator.ui packacge had two classes: UI and AnimationTimerExtra. UI is responsible for building the whole graphical user interface. The UI class has Stage and Scene objects for the main window and for the creation window respectively. AnimatonTimerExtra class is an abstract class UI uses to animate the simulation.
+simulator.ui packacge has two classes: UI and AnimationTimerExtra. UI is responsible for building the whole graphical user interface. The UI class has Stage and Scene objects for the main window and for the creation window respectively. AnimatonTimerExtra class is an abstract class UI uses to animate the simulation.
 
 The main responsibilities of the UI class are to construct and set the main and creation scenes and to pass the user's input on from the graphical components to Handler class in domain package. UI class is also responsible for showing the animation when simulating. This is done through an AnimationTimerExtra object that extends Java's AnimationTimer class. Actual objects of AnimationTimerExtra receive an integer as a parameter that define the interval in which the AnimationTimer's handle method is called.
 
@@ -27,13 +27,15 @@ TuringMachine class represents a TuringMachine. A TuringMachine is initiated wit
 
 Instruction is a class representing one instruction in the transition table. It consists of a character (char), a movement (char) and a state (String).
 
-**A class diagram here.**
+*Class diagram of Turing Machine Simulator.*
+![A class diagram here.](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/classdiagram.jpg)
 
 ## Saving data
 simultor.dao package contains the FileTMDao class responsible for managing the project folder and files. Handler class interacts with FileTMDao through an interface named TMDao. TMDao provides methods for creating the project folder, retrieving the project folder's path and creating and reading a project file. FileTMDao had two constructors FileTMDao() and FileTMDao(String f). The first one is used to create the project folder. The second one is used to set FileTMDao's project folder field to point to a temporary folder whose path is given as a parameter. This is constructor used in testing.
 
 FileTMDao creates a project folder named "TMSimulator" to the current working directory. All Turing machine files are saved here as normal text files. The files are written in the following format,
 
+```
 name:
 
 description:
@@ -49,6 +51,7 @@ second row of the transition table
 ...
 
 last row of the transition table
+```
 
 In the rows describing the transition table, instructions are written in the following order: character movement state, and instructions on the same row are separated by a semicolon and space.
 ## Main functions
