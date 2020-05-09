@@ -3,7 +3,7 @@ Download [TMSimulator.jar](https://github.com/pinjaw/ot-harjoitustyo/releases).
 ## Configuration
 The program creates a directory TMSimulator in the users working directory where the project files are stored. Carelessly changing the name or the contents of this folder might cause the program to not work.
 ## Launcing the program
-You can launch the program with command
+You can launch the program from the directory that contains the jar-file with command
 ```
 java -jar TMSimulator.jar
 ```
