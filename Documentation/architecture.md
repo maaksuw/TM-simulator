@@ -9,7 +9,7 @@ simulator.ui packacge has two classes: UI and AnimationTimerExtra. UI is respons
 
 The main responsibilities of the UI class are to construct and set the main and creation scenes and to pass the user's input on from the graphical components to Handler class in domain package. UI class is also responsible for showing the animation when simulating. This is done through an AnimationTimerExtra object that extends Java's AnimationTimer class. Actual objects of AnimationTimerExtra receive an integer as a parameter that define the interval in which the AnimationTimer's handle method is called.
 
-The UI-class interacts with the other classes solely though the Handler class.
+The UI class interacts with the other classes solely though the Handler class.
 ## Application logic
 simulator.domain package has four main classes: Handler, Simulator, TuringMachine and Instruction. Main class is also located in the domain package.
 
@@ -28,6 +28,7 @@ TuringMachine class represents a TuringMachine. A TuringMachine is initiated wit
 Instruction is a class representing one instruction in the transition table. It consists of a character (char), a movement (char) and a state (String).
 
 *Class diagram of Turing Machine Simulator.*
+
 ![A class diagram here.](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/classdiagram.jpg)
 
 ## Saving data
@@ -55,11 +56,18 @@ last row of the transition table
 
 In the rows describing the transition table, instructions are written in the following order: character movement state, and instructions on the same row are separated by a semicolon and space.
 ## Main functions
+Main functions of the program are creating a Turing machine, opening a pre-existing Turing machine from a file and simulating a selected Turing machine. Here is a short explanation on how the main functions are executed in the program.
 ### Creating a Turing Machine
-When a user creates a turing machine by clicking "Finish" -button, given that a machine with the same name doesn't already exists, the following procedure will start.
-
+When user creates a Turing machine by clicking "Finish" -button, given that a machine with the same name doesn't already exists, the following procedure will occur.
+![Creating a Turing machine](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/Create%20a%20Turing%20machine.png)
+First UI class gathers the necessary data from the GUI-components. Then it will call Handler class's createTM method. Handler creates an Instruction table and creates a new TuringMachine. Then Handler calls TMDao's createTM method and gives the createn TuringMachine as a parameter. TMDao creates a new project file describing the Turing machine and returns true if no error occurred. Handler returns true if the whole procedure ran smoothly and UI clears the data from the creation scene GUI-components. Finally UI closes the creation window and shows the main scene with the new Turing machines information on the right.
 ### Opening a Turing machine file
-
+When user clicks the "Open" -button and chooses a file, the following procedure takes plase.
+![Opening a Turing machine](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/Open%20a%20Turing%20machine%20file.png)
+If the user chose a file, UI calls Handler's method setUpTM and gives the chosen file as a parameter. Handler then first calls TMDao's method prepareReader to set the FileTMDao's scanner to read from the file given as a parameter. Then Handler and TMDao begin a conversation, where Handler asks for the Turing machine's name, description, alphabet, states and transition table and TMDao reads them from the file and returns the information as a String. In between the calls Handler avokes its own methods to change the alphabet, states and transitiontable from String to a necessary form. Then Handler creates a TuringMachine object from the information and sets it as Handler's and Simulator's current TuringMachine. Handler returns true to tell the UI that the reading of the file was succesfull and finally UI sets the GUI-components to match the newly opened Turing machine.
 ### Simulating a Turing machine
+When user has selected "Simulate without showing steps in-between", had given a proper input and clicks "Start simulation", the following procedure occurs.
+![Simulating a Turing machine](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Graphs/Simulate%20a%20Turing%20machine.png)
+First UI checks if the input is numeric and formats it to avoid errors. Then Handler's simulate method is called. Handler receives the input, tape size limit and step limit as parameters and passes them on to Simulator by calling Simulator's simulate-method. Simulator first sets itself up by calling setUpSimulator-method. If setUpSimulator does not throw any exception, Simulator calls its current TuringMachine's getTable()-method and receives an Instruction table. After that Simulator beings a loop where it read the instructions from the Instruction table and adjusts the contents on the tape accordingly before halting or reaching the step limit. In this example the simulation ended in an accepting state and the simulate-method returns 1. Handler passes this information on to the UI that sets the result text to "Accepted".
 
-Simulating manually and automatically follows a very similar pattern, only that an AnimatorTimer object is used to print the current situation of the tape on the simuation canvas when a button is pressed or in predefined intervals.
+Simulating manually and automatically follow a very similar pattern, only that an AnimatorTimerExtra object is used to print the current situation on the tape on the simulation canvas, in user defined intervals or when a button is pressed.
