@@ -63,7 +63,7 @@ second row of the transition table
 last row of the transition table
 
 In the matrice describing the transition table instructions are written in the following order: character movement state, and instructions on the same row are separated by a semicolon and space.
-Becareful of not breaking this format, or the program will not be able to read and recognize the file.
+Be careful of not breaking this format, or the program will not be able to read and recognize the file.
 ## Example Turing machines
 Here are some example Turing machines to simulate. You can download these Turing machines as text files from [here](https://github.com/pinjaw/ot-harjoitustyo/releases) at the same time when you download the program. Run the program once and look for the project folder "TMSimulator" in the same folder where you ran the jar-file from. If you cannot find it, see the instructions at the end of **Opening a Turing machine from a file**.
 Move the text files to the project folder and next time you open the program, you should be able to see them listed when you click "Open".
