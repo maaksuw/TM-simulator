@@ -18,5 +18,5 @@
 ## Miscellaneous
 - [ ] Create a better overall look with CSS
 - [ ] Create a working layout for fullscreen
-- [ ] Code building the UI is ridiculously long. Refactor it.
 - [ ] Example Turing machines come with the program and won't have to be downloaded by the user
+- [ ] Code building the user interface is ridiculously long. It need to be refactored. There is also some repetitive code. It could also be possible to make it so that Handler class does not have a Turing machine as a field. It is a little confusing and maybe unnecessary.
