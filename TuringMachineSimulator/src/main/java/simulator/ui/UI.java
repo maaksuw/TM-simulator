@@ -41,7 +41,7 @@ public class UI extends Application {
     private final int mainWindowWidth = 1105;
     private final int mainWindowHeight = 450;
     private final int creationWindowWidth = 1050;
-    private final int creationWindowHeight = 650;
+    private final int creationWindowHeight = 670;
     private final int drawerFontSize = 14;
     private final int tapeLength = 49;
     private double[] headX = new double[]{(canvasWidth/2) + 2, (canvasWidth/2) + 9, (canvasWidth/2) + 16};
@@ -284,6 +284,7 @@ public class UI extends Application {
         //instructions
         Label instructions = new Label("Instructions:"
                             + "\nSimulator uses \"_\" as a blank symbol. \"qa\" is the accepting state and \"qr\" is the rejecting state (these are not acceptable names for your own states). "
+                            + "With accepting and rejecting states you can use choose to either leave out or include the character and movement of the instruction. "
                             + "Possible movements are left, right and no movement written as L, R or N.\n" 
                             + "\nThe first row is for the alphabet, enter one character into one cell."
                             + "\nThe first column is for naming the states, the first state will be used as the initial state.\n"
@@ -370,7 +371,7 @@ public class UI extends Application {
         Label error = new Label("");
         error.setTextFill(Color.RED);
         error.setMaxWidth(500);
-        error.setPrefHeight(50);
+        error.setPrefHeight(40);
         error.setWrapText(true);
         HBox finishCancelbuttons = new HBox();
         finishCancelbuttons.setSpacing(10);

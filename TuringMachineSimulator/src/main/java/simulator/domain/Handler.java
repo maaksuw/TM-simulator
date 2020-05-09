@@ -200,8 +200,8 @@ public class Handler {
      * @see simulator.domain.Simulator#simulate(java.lang.String, int, int) 
      * @return A string representing the result of the simulation.
      */
-    public String simulate(String input, long limit, long tapeLimit) {
-        int result = sakke.simulate(input, limit, tapeLimit);
+    public String simulate(String input, long stepLimit, long tapeLimit) {
+        int result = sakke.simulate(input, stepLimit, tapeLimit);
         switch (result) {
             case 1:
                 return "Accepted";
