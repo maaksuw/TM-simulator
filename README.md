@@ -1,14 +1,18 @@
 # Turing machine simulator
-The purpose of the software is to simulate a turing machine. The program constructs a "turing machine" based on the users instructions, receives an input, simulates accordingly and presents the outcome with the given parameters. The idea is to make it easy for the user to see what the constructed turing machine does step-by-step with the given input and to provide an fun way to experiment with different implementations.
+The purpose of the software is to simulate a turing machine. The program constructs a Turing machine based on the users instructions, receives an input, simulates accordingly and presents the outcome of the simulation. The idea is to make it easy for the user to see what the constructed Turing machine does step by step with the given input and to provide an fun way to experiment with different implementations.
 ## Documentation
 [**Instructions**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/instructions.md)
 
+[**Requirements specification**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/requirementsspecification.md)
+
 [**Architecture**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/architecture.md)
 
-[**Requirements specification**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/requirementsspecification.md)
+[**Test documentation**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/testdocument.md)
 
 [**Record of working hours**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/recordofworkinghours.md)
 ## Releases
+[Final release](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/final)
+
 [Week 6](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week6)
 
 [Week 5](https://github.com/pinjaw/ot-harjoitustyo/releases/tag/week5)
