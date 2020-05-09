@@ -27,14 +27,14 @@ You can select a project file by clickin it and then pressing "Choose". The file
 * If you don't know where your project folder is, clicking the open button in the main window is the easiest way to find out. Open-button always opens your project folder and in the file chooser, above all the files, you can see the location of the folder.
 ## Simulating a Turing machine
 In the main window, you can see the information of the Turing machine currently attached to the simulator on the right side of the simulation area. At the top you can choose what type of a simulation you want to run. 
-* Simulation without steps in between shows you only the result of the simulation. This is good for large inputs or if you only want to know wheater the Turing machine halted in a accepting or rejecting state.
-* Simulate manually allows you to simulate step-by-step by hand. You can advance one step by clicking a button.
+* Simulation without steps in-between shows you only the result of the simulation. This is good for large inputs or if you only want to know wheater the Turing machine halted in a accepting or rejecting state.
+* Simulate manually allows you to simulate step by step by hand. You can advance one step by clicking a button.
 * Simulate automatically shows you in the simulation area how the simulation advances. You can choose different speeds by adjusting the slider.
 
 *The simulator is ready for simulation.*
 ![Ready for simulation](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Pictures/simulator.png)
 
-You can write input in the textfield below the simulation area and then start the simulation by pressing "Start simulation." If you don't want to, you don't have to wait for the current simulation to end, but you can start a new simulation any time by choosing the type of simulation you want to run and then clicking "Start simulation". The result of the simulation will be shown at the bottom of the window. If the input contains characters not defined in the transition table, the simulation will halt.
+You can write input in the textfield below the simulation area and then start the simulation by pressing "Start simulation." You can start a new simulation any time by choosing the type of simulation you want to run and then clicking "Start simulation", even if the previous simulation has not ended yet. The result of the simulation will be shown at the bottom of the window. If the input contains characters not defined in the transition table, the simulation will halt.
 
 *During simulation, steps taken are shown at the left corner of the simulation area. The visualization shows a part of the tape near the head and the current state (above the head).*
 ![Automatic simulation](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/Pictures/simulating.png)
