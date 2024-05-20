@@ -3,6 +3,8 @@ The purpose of the software is to simulate a turing machine. The program constru
 
 Työ on toteutettu harjoitustyönä Helsingin yliopiston kurssilla Ohjelmistotekniikka.
 
+**!! During DevOps for Docker course part 1, I added a Dockerfile to this project (for transparency) as well as published it to DockerHub. The Dockerfile can be found in the directory TuringMachineSimulator, and all docker related commands should be executed in that directory. After cloning the project you can pull the image from DockerHub with ```docker pull maaksuw/tmsim``` and run the container. Since JavaFX is difficult to get to work in containers, the output of the container should (unfortunately) be the following error: 'Exception in thread "main" java.lang.UnsupportedOperationException: Unable to open DISPLAY'. Here is a pointer to what is causing this problem (the linked questions are also good), but I hope it is okay to say this is outside the scope of this course and exercise [JavaFX Docker Unable to open DISPLAY](https://stackoverflow.com/questions/71278151/javafx-docker-unable-to-open-display). !!**
+
 ## Documentation
 [**Instructions**](https://github.com/pinjaw/ot-harjoitustyo/blob/master/Documentation/instructions.md)
 
